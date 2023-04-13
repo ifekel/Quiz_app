@@ -1,0 +1,83 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}New Message{% endblock title %}
+{% block style %}
+
+<style>
+    main {
+        margin: 0;
+        width: auto;
+        height: auto;
+        padding: 0;
+    }
+
+    h1 {
+        font-family: sans-serif;
+        font-size: 2rem;
+        text-align: center;
+    }
+    
+    .top-menu {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .top-menu a {
+        padding: 10px;
+        background-color: black;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-family: fira sans;
+        font-weight: 800;
+    }
+
+    form {
+        width: auto;
+        padding: 20px;
+    }
+
+    label {
+        font-family: sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    select {
+        width: 100%;
+        height: 30px;
+    }
+    textarea {
+        width: 100%;
+    }
+
+    input {
+        width: 100%;
+        height: 40px;
+        background-color: green;
+        color: white;
+        font-weight: 900;
+        border: none;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+
+<section>
+    <main>
+        <div class="top-menu">
+            <h1>Send a message</h1>
+            <a href="{% url 'messages' %}"><i class="fa fa-chevron-left"></i> Go Back</a>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="SEND">
+        </form>
+    </main>
+</section>
+{% endblock content %}

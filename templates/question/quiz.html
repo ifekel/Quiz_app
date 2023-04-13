@@ -1,0 +1,121 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Play Quzi{% endblock title %}
+
+
+{% block content %}
+<h1>{{ category.name }}</h1>
+<form method="POST">
+  {% csrf_token %}
+  {% for i, question in question_list %}
+  {% if i == 0 %}
+  <div class="active-question" id="question-{{ question.id }}">
+    {% else %}
+    <div class="inactive-question" id="question-{{ question.id }}" style="display: none;">
+      {% endif %}
+      <h3>{{ question.question }}</h3>
+      {% for choice in question.choice_set.all %}
+      <div>
+        <input type="radio" name="question-{{ question.id }}" id="choice-{{ choice.id }}" value="{{ choice.id }}">
+        <label for="choice-{{ choice.id }}">{{ choice.choice_text }}</label>
+        {% if choice.is_correct %}
+        <span class="text-success">(correct)</span>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <button type="button" class="btn btn-primary next-btn" data-next="{{ question.id }}">Next</button>
+      {% if i > 0 %}
+      <button type="button" class="btn btn-secondary prev-btn" data-prev="{{ question.id }}">Previous</button>
+      {% endif %}
+    </div>
+    {% endfor %}
+    <div class="total-score" style="display: none;">
+      <p>Total Score: <span class="score-value">0</span></p>
+    </div>
+    <button type="submit" class="btn btn-success submit-btn" style="display: none;">Submit</button>
+    <input type="hidden" id="num-questions" value="{{ num_questions }}">
+</form>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  const nextBtns = document.querySelectorAll('.next-btn');
+  const prevBtns = document.querySelectorAll('.prev-btn');
+  const submitBtn = document.querySelector('.submit-btn');
+  const scoreValue = document.querySelector('.score-value');
+  const totalScore = document.querySelector('.total-score');
+  const numQuestions = document.querySelector('#num-questions').value;
+  let currentQuestion = 0;
+  let score = 0;
+
+  // Add click event listeners to next buttons
+  nextBtns.forEach(nextBtn => {
+    nextBtn.addEventListener('click', () => {
+      const currentQuestionDiv = document.querySelector(`#question-${currentQuestion}`);
+      const nextQuestion = nextBtn.dataset.next;
+      const nextQuestionDiv = document.querySelector(`#question-${nextQuestion}`);
+      const selectedChoice = currentQuestionDiv.querySelector(`input[name="question-${currentQuestion}"]:checked`);
+      if (selectedChoice) {
+        const selectedChoiceId = selectedChoice.value;
+        const isCorrect = selectedChoice.parentElement.querySelector('.text-success');
+        if (isCorrect) {
+          score += 4;
+          scoreValue.textContent = score;
+        }
+        currentQuestionDiv.classList.remove('active-question');
+        currentQuestionDiv.classList.add('inactive-question');
+        nextQuestionDiv.classList.remove('inactive-question');
+        nextQuestionDiv.classList.add('active-question');
+        currentQuestion = nextQuestion;
+        if (currentQuestion == numQuestions) {
+          nextBtn.style.display = 'none';
+          submitBtn.style.display = 'block';
+          totalScore.style.display = 'block';
+        }
+        if (currentQuestion > 1) {
+          prevBtns.forEach(prevBtn => {
+            prevBtn.style.display = 'inline-block';
+          });
+        }
+      }
+    });
+  });
+
+
+  // Add click event listeners to previous buttons
+  prevBtns.forEach(prevBtn => {
+    prevBtn.addEventListener('click', () => {
+      const currentQuestionDiv = document.querySelector(`#question-${currentQuestion}`);
+      const prevQuestion = prevBtn.dataset.prev;
+      const prevQuestionDiv = document.querySelector(`#question-${prevQuestion}`);
+      currentQuestionDiv.classList.remove('active-question');
+      currentQuestionDiv.classList.add('inactive-question');
+      prevQuestionDiv.classList.remove('inactive-question');
+      prevQuestionDiv.classList.add('active-question');
+      currentQuestion = prevQuestion;
+      if (currentQuestion == numQuestions - 1) {
+        nextBtns.forEach(nextBtn => {
+          nextBtn.style.display = 'inline-block';
+        });
+        submitBtn.style.display = 'none';
+        totalScore.style.display = 'none';
+      }
+      if (currentQuestion == 1) {
+        prevBtns.forEach(prevBtn => {
+          prevBtn.style.display = 'none';
+        });
+      }
+    });
+  });
+
+  // Add submit event listener to form
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (event) => {
+    if (currentQuestion != numQuestions) {
+      event.preventDefault();
+      alert('Please answer all questions before submitting');
+    }
+  });
+</script>
+
+{% endblock javascript %}

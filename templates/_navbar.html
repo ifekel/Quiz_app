@@ -1,0 +1,122 @@
+<style>
+    .side-nav a {
+        display: flex;
+        color: #710988;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .side-nav {
+        position: fixed;
+        width: 110px;
+        /* border-right: 10px solid black; */
+        box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .side-nav a i {
+        color: black;
+        font-size: 25px;
+        border: 2px solid #3B0A6B;
+        padding: 20px;
+        border-radius: 100%;
+        transition: all .4s ease-in-out;
+    }
+
+    .side-nav a i.active {
+        color: #fff;
+        background-color: #3B0A6B;
+    }
+
+    .side-nav a i:hover {
+        color: #fff;
+        background-color: #3B0A6B;
+    }
+
+    .side-nav p {
+        margin-bottom: 27px;
+        font-size: 21px;
+        font-family: bree serif;
+    }
+
+    .side-nav li {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 890px) {
+        .side-nav {
+            display: none;
+        }
+    }
+</style>
+
+<div class="navbar-container">
+    <div class="side-nav">
+        <ul style="list-style-type: none; padding: 0;">
+            {% if user.is_authenticated %}
+            {% url 'home_page' as home_page %}
+            <li>
+                <a href="{{ home_page }}" title="Home">
+                    <i class="bi bi-house {% if home_page == request.path %} active {% endif %}"></i>
+                </a>
+            </li>
+
+            {% url 'category' as category %}
+            <li>
+                <a href="{{category}}" title="Quiz">
+                    <i class="fa fa-question {% if category == request.path %} active {% endif %}" aria-hidden="true"></i>
+                </a>
+            </li>
+
+            {% url 'messages' as messages %}
+            <li>
+                <a href="{{ messages }}" title="Messages">
+                    <i class="fa fa-comment {% if messages == request.path %} active {% endif %}" aria-hidden="true"></i>
+                </a>
+            </li>
+
+            {% url 'announcements' as announcements %}
+            <li>
+                <a href="{{ announcements }}" title="Announcements">
+                    <i class="fa fa-bell {% if announcements == request.path %} active {% endif %}" aria-hidden="true"></i>
+                </a>
+            </li>
+
+            {% else %}
+            {% url 'home_page' as home_page %}
+            <li>
+                <a href="{{ home_page }}" title="Home">
+                    <i class="bi bi-house {% if home_page == request.path %} active {% endif %}"></i>
+                </a>
+            </li>
+
+            {% url 'about_page' as about_page %}
+            <li>
+                <a href="{{about_page}}" title="About">
+                    <i class="bi bi-info {% if about_page == request.path %} active {% endif %}" aria-hidden="true"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="" title="FAQs">
+                    <i class="bi bi-question" aria-hidden="true"></i>
+                </a>
+            </li>
+
+            {% url 'contact_page' as contact_page %}
+            <li>
+                <a href="{{ contact_page }}" title="Contact">
+                    <i class="bi bi-envelope {% if contact_page == request.path %} active {% endif %}" aria-hidden="true"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

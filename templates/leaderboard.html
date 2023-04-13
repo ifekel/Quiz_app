@@ -1,0 +1,28 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Leaderboard{% endblock title %}
+
+
+{% block content %}
+<div class="container">
+    <h1><span><i class="bi bi-trophy" aria-hidden="true"></i> TOP {{ total_count }} PLAYERS <i class="bi bi-trophy" aria-hidden="true"></i></span></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Username</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz_profile in top_quiz_profiles %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ quiz_profile.user.username }}</td>
+                <td>{{ quiz_profile.total_score }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

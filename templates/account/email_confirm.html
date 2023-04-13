@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load account %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skars Bookstore | Confirm E-mail Address</title>
+
+    <link rel="stylesheet" href="{% static 'vendor/aos/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/Font-awesome/css/all.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<body>
+
+    {% if confirmation %}
+    {% user_display confirmation.email_address.user as user_display %}
+
+    <form method="post" class="wrapper" action="{% url 'account_confirm_email' confirmation.key %}">
+        <div class="top-banner mb-5">
+            <h3>{% trans "Confirm E-mail Address" %}</h3>
+        </div>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn" value="{% trans 'Confirm Email' %}">
+    </form>
+    {% endif %}
+</body>
+
+</html>

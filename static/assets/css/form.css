@@ -1,0 +1,232 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #3B0A6B;
+    --color-secondary: lightblue;
+}
+
+body {
+    overflow: hidden;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 70%;
+    height: 80%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.text-section {
+    height: 100%;
+    width: 40%;
+    background: var(--color-primary);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.top-content {
+    font-size: 20px;
+    font-family: tahoma;
+    color: white;
+}
+
+.box-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.box-content h2 {
+    font-size: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+}
+
+.box-content p {
+    text-align: center;
+    font-size: 15px;
+    font-family: tahoma;
+    margin-bottom: 20px;
+}
+
+.box-content a {
+    margin-top: 20px;
+    padding: 10px 100px;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    text-decoration: none;
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+    transition: all .5s ease-in-out;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.box-content a:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Form Section */
+.form-section {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-section form {
+    width: 80%;
+    height: auto;
+    padding: 20px 30px;
+}
+
+.form-section .form-heading {
+    padding: 20px;
+    text-align: center;
+}
+
+.form-section .form-heading h1 {
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--color-primary);
+}
+
+.form-social-logins {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.form-social-logins span {
+    margin: 20px;
+    font-size: 30px;
+    border: 1px solid #00000043;
+    width: 50px;
+    padding: 30px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+}
+
+.form-social-logins span a i {
+    color: var(--color-primary);
+}
+
+.form-group {
+    height: 50px;
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.form-group i {
+    width: 15%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group input {
+    width: 85%;
+    border: none;
+    outline: none;
+}
+
+.form-group select {
+    width: 85%;
+    border: none;
+    outline: none;
+}
+
+input[type=submit] {
+    padding: 10px;
+    width: 60%;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    margin: 0 auto;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.edgeBox-round {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    background: rgb(221, 221, 77);
+    left: -6rem;
+    bottom: -6rem;
+    border-radius: 50%;
+}
+
+.edgeBox-square {
+    width: 300px;
+    height: 300px;
+    position: absolute;
+    background: red;
+    top: -10rem;
+    right: 0;
+    transform: rotateZ(140deg);
+}
+
+.message-error {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: sans-serif;
+    height: 50px;
+    background-color: red;
+}
+
+.message-success {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: sans-serif;
+    height: 50px;
+    background-color: green;
+}
+
+p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 17px;
+    width: 100%;
+}

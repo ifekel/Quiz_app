@@ -1,0 +1,50 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Message{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+<style>
+    h1 {
+        font-family: sans-serif;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .top-menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .top-menu a {
+        padding: 10px;
+        background-color: black;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-family: fira sans;
+        font-weight: 800;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+{% include '_navbar.html' %}
+<section>
+    <main>
+        <div class="top-menu">
+            <h1>Message Detail</h1>
+            <a href="{% url 'messages' %}"><i class="fa fa-chevron-left"> </i>Go back</a>
+        </div>
+
+        <div class="messages">
+            <h3>From: {{ message.sender }}</h3>
+            <h3>To: {{ message.recipient }}</h3>
+            <p><b>Content: </b> {{ message.message }}</p>
+            <p>Date: {{ message.created_at }}</p>
+        </div>
+    </main>
+</section>
+{% endblock content %}

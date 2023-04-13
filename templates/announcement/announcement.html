@@ -1,0 +1,75 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Announcements{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<style>
+    h1 {
+        font-family: sans-serif;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .top-menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .top-menu a {
+        padding: 10px;
+        background-color: black;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+    }
+    .announcements {
+        width: 99%;
+        height: 93%;
+        padding-top: 20px;
+        border-radius: 4px;
+        background: #fff;
+    }
+
+    .announcement-item {
+        display: flex;
+        color: black;
+        align-items: start;
+        flex-direction: column;
+        background: whitesmoke;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #000;
+    }
+
+    .announcement-item a {
+        color: black;
+        text-decoration: none;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+{% include '_navbar.html' %}
+<section>
+    <main>
+        <div class="top-menu">
+            <h1>Announcements</h1>
+            <a href="{% url 'home_page' %}" class="btn goBack"><i class="fa fa-chevron-left"></i> Go Back</a>
+        </div>
+
+        <div class="announcements">
+            {% for announcement in announcement_list reversed %}
+            {% if announcements_total == 0 %}
+            <h3>No announcements</h3>
+            {% else %}
+            <div class="announcement-item">
+                <h3><a href="{% url 'announcement_detail' announcement.id  %}">{{ announcement.title }}</a></h3>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </main>
+</section>
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Profile Page{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+{% endblock style %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="box-x">
+            <div class="top">
+                <span><i class="fa fa-arrow-left"></i></span>
+            </div>
+            <div class="txt">
+                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+                <i class="fa fa-user"></i>
+            </div>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-item">
+                <i class="fa fa-user"></i>
+                <p>{{ request.user.first_name }} {{ request.user.last_name }} (Full name)</p>
+            </div>
+
+            <div class="detail-item">
+                <i class="fa fa-user"></i>
+                <p>{{ request.user.username }} (Username)</p>
+            </div>
+
+            <div class="detail-item">
+                <i class="fa fa-envelope"></i>
+                <p>{{ request.user.email }} (email)</p>
+            </div>
+
+            <div class="action-btn">
+                <a href="{% url 'edit_profile' %}" class="btn-edit-profile"><i class="fa fa-wrench"></i> Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

@@ -1,0 +1,274 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+    animation: change 5s ease-in-out infinite alternate;
+    overflow: hidden;
+}
+
+@keyframes change{
+    from{background-color: black;}
+    to{background-color:  rgb(60, 2, 71);}
+}
+
+
+main {
+    margin-left: 110px;
+    height: 92%;
+    padding-left: 30px;
+}  
+
+nav{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+nav h1 a{
+    text-decoration: none;
+    color: white;
+    font-size: 2rem;
+    margin-left: 20px;
+    font-family: cooper;
+}
+
+.nav-menu{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding-right: 20px;
+}
+
+.nav-menu ul {
+    display: flex;
+    gap: 30px;
+    list-style-type: none;
+}
+
+.language {
+    display: flex;
+    align-content: center;
+}
+
+.language select {
+    background: none;
+    border: none;
+    color: white;
+    outline: none;
+}
+
+.language option {
+    color: black;
+    border-radius: 0;
+}
+
+.login, 
+.signup {
+    text-decoration: none;
+    padding: 10px 20px;
+    font-family: fira sans;
+    font-weight: 900;
+    border: 1px solid white;
+    color: white;
+    transition: all .3s ease-in-out;
+}
+
+.login:hover,
+.signup:hover {
+    color: black;
+    background-color: #fff;
+}
+
+.fa-globe{
+    font-size: 20px;
+    color: rgb(230, 230, 230);
+}
+
+.fa-bars,
+.close {
+    padding: 15px;
+    border-radius: 3px;
+    color: white;
+    font-size: 20px;
+    display: none;
+    border: 2px solid white;
+    transition: all .5s ease-in-out;
+}
+
+.fa-bars:hover,
+.close:hover {
+    background-color: white;
+    color: black;
+}
+
+
+.responsive-nav-bar {
+    position: absolute;
+    top: 5rem;
+    box-shadow: 0 5px 10px rgba(255, 255, 255, 0.2);
+    list-style-type: none;
+    width: 100%;
+    left: -200%;
+    transition: all .6s ease-in-out;
+}
+
+.responsive-nav-bar ul li a {
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+}
+
+.responsive-nav-bar ul {
+    padding: 10px;
+}
+
+.responsive-nav-bar ul li {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.responsive-nav-bar ul li:hover {
+    background-color: rgba(109,8,134,1);
+}
+
+.responsive-nav-bar ul li:hover a {
+    color: white;
+}
+
+.responsive-nav-bar ul li.active {
+    background-color: rgba(109,8,134,1);
+    color: white;
+}
+
+/* End Nav */
+
+/* Content */
+
+.content-body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.text-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.text-container h1{
+    font-size: 60px;
+    text-transform: capitalize;
+    font-family: arial rounded mt semibold;
+    color: white
+}
+
+.text-container a {
+    padding: 15px 50px;
+    border: 2px solid rgba(109,8,134,1);
+    color: white;
+    border-radius: 30px;
+    font-size: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+
+.text-container a:hover {
+    background-color: rgba(109,8,134,1);
+}
+
+.img-div{
+    width: 50%;
+    height: 100%;
+}
+
+.img-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.nft{
+    width: 330px;
+    height: 400px;
+    margin-left: 50px;
+}
+
+
+@media (max-width: 1280px) {
+    .text-container h1{
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .text-container h1{ 
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 890px) {
+    .content-body {
+        width: 100%;
+        padding: 20px;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    main {
+        margin-left: 0;
+        width: 100%;
+        padding-left: 0;
+    }  
+
+    .text-container h1{ 
+        font-size: 27px;
+    }
+
+    .text-container a{ 
+        padding: 15px 25px;
+    }
+
+    .nft{
+        width: 300px;
+        height: 300px;
+        margin-left: 50px;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .fa-bars {
+        display: block;
+        margin-right: 10px;
+    }
+
+    .close {
+        display: none;
+    }
+}
+

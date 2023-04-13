@@ -1,0 +1,54 @@
+{% extends '_base.html' %}
+{% block title %}Verify Email Address{% endblock %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/form.css' %}">
+{% endblock style %}
+
+{% block content %}
+<main>
+    <div class="edgeBox-round"></div>
+    <div class="edgeBox-square"></div>
+    <div class="container">
+        <div class="text-section">
+            <div class="top-content">
+                <h4>Quizzer</h4>
+            </div>
+            <div class="box-content">
+                <h2>You're Almost Ready</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quis voluptatibus sed aspernatur impedit! Labore aut laudantium quo id vero.</p>
+                <a href="">Sign in</a>
+            </div>
+        </div>
+        <div class="form-section">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-heading">
+                    <h1>Verify Your Email Address</h1>
+                </div>
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="message-error">
+                    <h3>{{ message }}</h3>
+                </div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <div class="message-success">
+                    <h3>{{ message }}</h3>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="form-group">
+                    <i class="fa fa-gear"></i>
+                    <input type="text" class="input-field" name="code" placeholder="CODE" style="border-bottom: 2px solid var(--color-secondary);">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="VERIFY">
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock content %}

@@ -1,0 +1,141 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Messages{% endblock title %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+<style>
+    h1 {
+        font-family: sans-serif;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .top-menu {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .top-menu a {
+        padding: 10px;
+        background-color: black;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-family: fira sans;
+        font-weight: 800;
+    }
+
+    .messages {
+        width: 99%;
+        height: 93%;
+        padding-top: 20px;
+        border-radius: 4px;
+    }
+
+    .announcement-item {
+        color: black;
+        background: whitesmoke;
+        margin-bottom: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #000;
+    }
+
+    .announcement-item a {
+        color: black;
+        text-decoration: none;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    main {
+        height: 100%;
+    }
+
+    .messages {
+        height: auto;
+        padding: 30px;
+        width: auto;
+    }
+
+    table {
+        width: 100%;
+        text-align: left;
+    }
+
+    th {
+        padding: 20px;
+        font-family: sans-serif;
+        background-color: #3B0A6B;
+        color: white;
+    }
+
+    td {
+        background-color: whitesmoke;
+        padding: 20px;
+        font-family: sans-serif;
+    }
+
+    td a {
+        text-decoration: none;
+        padding: 10px 10px;
+        /* display: flex; */
+    }
+
+    td a.edit {
+        background-color: blue;
+        border-radius: 5px;
+        color: white;
+        margin-bottom: 5px;
+    }
+    td a.delete {
+        background-color: red;
+        border-radius: 5px;
+        color: white;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+{% include '_navbar.html' %}
+<section>
+    <main>
+        <div class="top-menu">
+            <h1>Messages</h1>
+            <a href="{% url 'messages_new' %}"><i class="fa fa-plus"></i> New Message</a>
+        </div>
+
+        <div class="messages">
+            <table>
+                <tr>
+                    <th>Send / Recieve</th>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th colspan="1">Action</th>
+                </tr>
+                {% for send in sending reversed %}
+                <tr>
+                    <td>Send</td>
+                    <td>{{ send.recipient }}</td>
+                    <td>{{ send.created_at }}</td>
+                    <td><a href="{% url 'message_detail' send.id %}" class="edit">View</a> <a href="{% url 'message_delete' send.id %}" class="delete">Delete</a></td>
+                </tr>
+                {% endfor %}
+
+                {% for recieve in recieving reversed %}
+                <tr>
+                    <td>Recieve</td>
+                    <td>{{ recieve.sender }}</td>
+                    <td>{{ recieve.created_at }}</td>
+                    <td><a href="{% url 'message_detail' recieve.id %}" class="edit">View</a> <a href="{% url 'message_delete' recieve.id %}" class="delete">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </main>
+</section>
+{% endblock content %}

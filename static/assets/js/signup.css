@@ -1,0 +1,236 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(60, 2, 71);
+}
+
+.bckgrnd{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.circle{
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background-color: rgba(255, 23, 197, 0.774);
+    opacity: 0.3;
+}
+
+.top{
+    position: absolute;
+    left: 80%;
+    top: 0;
+    animation-name: topanimate;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-delay: 2s;
+}
+
+@keyframes topanimate {
+    0%   {left:   80%; top: 0;}
+    100% {left:   80%; top: 71%;}
+}
+
+.down{
+    position: absolute;
+     top: 71%;
+     right: 80%;
+     animation-name: downanimate;
+     animation-duration: 2s;
+     animation-iteration-count: infinite;
+     animation-direction: alternate-reverse;
+     animation-delay: 2s;
+}
+
+@keyframes downanimate {
+   0%   {right:  80%; top: 0%;}
+   100% {right:  80%; top: 71%;}
+}
+
+.square{
+    width: 50px;
+    height: 50px;
+    background-color: rgba(225,28,182,1);
+    opacity: 0.5;
+}
+
+
+@keyframes small2animate{
+    0% {left:  80%; top: 0;}
+    100% {left: 80%; top: 0;}
+}
+
+@keyframes small3animate{
+    0% {left:  80%; top: 0;}
+    100% {left: 80%; top: 0;}
+}
+
+
+.big{
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    left: 40%;
+    top: 20%;
+    animation: biganimate 5s infinite alternate;
+    animation-delay: 2s;
+}
+
+@keyframes biganimate{
+    0%   {left:  40%; top: 20%;}
+    50%  {left:  50%;  top: 40%;}
+    100% {left:  65%; top: 20%;}
+}
+
+
+.small1{
+    position: absolute;
+    left: 15%;
+    top: 35%;
+    animation: small1animate 5s infinite alternate;
+    animation-delay: 2s;
+}
+
+@keyframes small1animate{
+    0%   {left:  15%;   top: 35%;}
+    100% {left:  75%;   top: 35%;}
+}
+
+.small2{
+    position: absolute;
+    left: 85%;
+    top: 90%;
+    animation: small2animate 10s infinite alternate;
+    animation-delay: 2s;
+}
+
+@keyframes small2animate{
+    0%   {left: 85%;   top: 90%;}
+    25%  {left: 5%;   top:  90%;}
+    50%  {left: 90%;  top:  0%;}
+    75%  {left: 85%;   top: 90%}
+    100% {left: 0%;    top: 0%;}
+}
+
+.small3{
+    position: absolute;
+    left: 75%;
+    top: 40%;
+    animation: small3animate 5s infinite alternate;
+    animation-delay: 2s;
+}
+
+@keyframes small3animate{
+    0%   {left: 75%;   top: 40%;}
+    100% {left: 15%;   top: 35%;}
+}
+
+.container{
+    width: 60%;
+    height: 85vh;
+    background-color: rgba(80, 42, 87, 0.315);
+    background-color: rgba(121, 121, 121, 0.151);
+    z-index: 0;
+    padding: 50px;
+    text-align: center;
+    font-family: sans-serif;
+    color: white;
+}
+
+h4{
+    font-weight: normal;
+    font-size: 22px;
+}
+
+.profiledivcontainer{
+     width: 100%;
+     height: 80px;
+     margin-top: 30px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+
+.profilediv{
+    background-color: rgba(121, 121, 121, 0.377);
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+p{
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.fa-user-plus{
+    font-size: 40px;
+    color: rgba(153, 152, 152, 0.562);
+}
+
+.form-layout{
+    width: 100%;
+    height: 30vh;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: 80px 80px;
+}
+
+.icon{
+    padding: 15px;
+    background:  rgb(153, 3, 158);
+    color: white;
+    min-width: 50px;
+    height: 50px;
+}
+
+.input-container {
+    display: flex;
+    width: 80%;
+    margin-top: 18px;
+    margin-left: 50px;
+}
+  
+  /* Style the input fields */
+.input-field {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    background-color: rgba(121, 121, 121, 0.151);
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(224, 224, 224, 0.3);
+}
+
+::placeholder{
+   color: white;
+}
+
+.btn {
+    background: linear-gradient(90deg, rgba(225,28,182,1) 0%, rgba(109,8,134,1) 100%);
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer; 
+    width: 60%;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+

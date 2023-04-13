@@ -1,0 +1,88 @@
+{% extends '_base.html' %}
+{% block title %}Sign up{% endblock %}
+{% load socialaccount %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/form.css' %}">
+
+<style>
+    .container {
+        flex-direction: row;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<main>
+    <div class="edgeBox-round"></div>
+    <div class="edgeBox-square"></div>
+    <div class="container">
+        <div class="text-section">
+            <div class="top-content">
+                <h4>Quizzer</h4>
+            </div>
+            <div class="box-content">
+                <h2>Welcome to Quizzer</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quis voluptatibus sed aspernatur impedit! Labore aut laudantium quo id vero.</p>
+                <a href="{% url 'login' %}">Sign in</a>
+            </div>
+        </div>
+        <div class="form-section">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-heading">
+                    <h1>Create Account</h1>
+                </div>
+                <div class="form-social-logins">
+                    <span><a href="{% provider_login_url 'facebook' %}"><i class="bi bi-facebook"></i></a></span>
+                    <span><a href="{% provider_login_url 'google' %}"><i class="bi bi-google"></i></a></span>
+                    <span><a href=""><i class="bi bi-linkedin"></i></a></span>
+                </div>
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="message-error">
+                    <h3>{{ message }}</h3>
+                </div>
+                {% endif %}
+                {% if message.tags == 'success' %}
+                <div class="message-success">
+                    <h3>{{ message }}</h3>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <div class="form-group">
+                    <i class="fa fa-user"></i>
+                    <input type="text" class="input-field" name="fname" placeholder="First name">
+
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-user"></i>
+                    <input type="text" class="input-field" name="lname" placeholder="Last name">
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" name="email" id="email" placeholder="Email Address">
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-male"></i>
+                    <select name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="custom">Custom</option>
+                        <option value="prefer not say">Prefer not say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Sign up">
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock content %}
