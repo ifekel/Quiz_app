@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from quiz.models import Announcement, ContactMessage
+from quiz.models import Announcement, ContactMessage, Question
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView, TemplateView
 from django.contrib import messages
 
@@ -10,13 +10,20 @@ class HomePageView(TemplateView):
         if request.user.is_superuser == True :
             return redirect('/admin')
         else:
-            announcements = Announcement.objects.all()
-            total_announcement = Announcement.objects.all().count()
-            context = {
-                'announcements': announcements,
-                'total_announcement': total_announcement,
-            }
-            return render(request, 'index.html', context)
+            if request.user.is_authenticated:
+                announcements = Announcement.objects.all()
+                total_announcement = Announcement.objects.all().count()
+                quiz_created_by_user = Question.objects.all().filter(author=request.user)
+                total_quiz_created_by_user = len(quiz_created_by_user)
+                context = {
+                    'announcements': announcements,
+                    'total_announcement': total_announcement,
+                    'total_quiz_created_by_user': total_quiz_created_by_user
+                }
+                
+                return render(request, 'index.html', context)
+            
+            return render(request, 'index.html')
     
 class AboutPageView(TemplateView):
     template_name = 'about.html'

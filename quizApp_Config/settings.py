@@ -173,7 +173,7 @@ WSGI_APPLICATION = 'quizApp_Config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Quiz',
+        'NAME': 'quizapp',
         'USER': 'postgres',
         'PASSWORD': 'ifyonyekeshy7',
         'HOST': 'localhost',
@@ -260,4 +260,4 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-DEFAULT_FROM_EMAIL = 'admin@quizzer.com'
+DEFAULT_FROM_EMAIL = 'quizzer@support.com'

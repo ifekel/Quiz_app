@@ -1,0 +1,8 @@
+<fieldset>
+    <legend>Question Information</legend>
+    {{ question_form.as_p }}
+    {{ choice_formset.management_form }}
+    {% for form in choice_formset %}
+    {{ form.as_p }}
+    {% endfor %}
+</fieldset>

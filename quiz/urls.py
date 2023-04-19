@@ -17,7 +17,8 @@ from .views import (
     EditProfile,
     create_question,
     DeleteMessage,
-    QuizDetailView
+    SearchResultListView,
+    quiz_results
 )
 
 urlpatterns = [
@@ -33,13 +34,14 @@ urlpatterns = [
     # Authenticated Users Only 
     # ===============================
     path('quiz', QuestionList.as_view(), name="question_list"),
-    path('start_quiz/<int:category_id>/', quiz, name='play'),
+    path('<int:category_id>/question/<int:page>/', quiz, name='play'),
     path('quiz/new/', create_question, name="quiz_new"),
+    path('quiz_results/', quiz_results, name="quiz_results"),
     path('category/', CategoryList.as_view(), name="category"),
-    path('category/<uuid:pk>/', QuizDetailView.as_view(), name='category_detail'),
+    path('search/', SearchResultListView.as_view(), name="search_result"),
     path('submission_result/', submission_Result, name='submission_result'),
     path('profile/', Profile.as_view(), name="profile"),
-    path('profile-edit/', EditProfile.as_view(), name="edit_profile"),
+    path('profile-edit/<int:pk>/', EditProfile.as_view(), name="edit_profile"),
     path('messages/', MessageList.as_view(), name="messages"),
     path('messages/new/', CreateMessage.as_view(), name="messages_new"),
     path('messages/<uuid:pk>/', MessageDetail.as_view(), name="message_detail"),

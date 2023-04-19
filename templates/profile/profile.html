@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Profile Page{% endblock title %}
+{% block title %}Profile{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
@@ -9,34 +9,45 @@
 {% block content %}
 <main>
     <div class="container">
-        <div class="box-x">
-            <div class="top">
-                <span><i class="fa fa-arrow-left"></i></span>
+        <div class="text-section">
+            <div class="top-content">
+                <h4>Quizzer</h4>
             </div>
-            <div class="txt">
-                <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
-                <i class="fa fa-user"></i>
+            <div class="box-content">
+                <h2>Edit Your Profile</h2>
+                <p>Make your account up to date</p>
+                <a href="{% url 'account_change_password' %}">Change Password</a>
             </div>
         </div>
 
-        <div class="profile-details">
-            <div class="detail-item">
-                <i class="fa fa-user"></i>
-                <p>{{ request.user.first_name }} {{ request.user.last_name }} (Full name)</p>
-            </div>
+        <div class="form-section">
+            <div class="profile-details">
+                <div class="group">
+                    <i class="">F</i>
+                    <p>{{ request.user.first_name }}</p>
+                </div>
+    
+                <div class="group">
+                    <i class="">L</i>
+                    <p>{{ request.user.last_name}}</p>
+                </div>
+    
+                <div class="group">
+                    <i class="fa fa-user"></i>
+                    <p>{{ request.user.username}}</p>
+                </div>
+    
+                <div class="group">
+                    <i class="fa fa-envelope"></i>
+                    <p>{{ request.user.email }}</p>
+                </div>
+    
+                <div class="group">
+                    <i class="">G</i>
+                    <p>{{ request.user.gender }}</p>
+                </div>
 
-            <div class="detail-item">
-                <i class="fa fa-user"></i>
-                <p>{{ request.user.username }} (Username)</p>
-            </div>
-
-            <div class="detail-item">
-                <i class="fa fa-envelope"></i>
-                <p>{{ request.user.email }} (email)</p>
-            </div>
-
-            <div class="action-btn">
-                <a href="{% url 'edit_profile' %}" class="btn-edit-profile"><i class="fa fa-wrench"></i> Edit Profile</a>
+                <a href="{% url 'edit_profile' request.user.id %}" class="edit_account_link">Edit Profile</a>
             </div>
         </div>
     </div>

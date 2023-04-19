@@ -5,7 +5,7 @@
 }
 
 :root {
-    --color-primary: rgb(119, 139, 21);
+    --color-primary: #3B0A6B;
     --color-secondary: lightblue;
 }
 
@@ -137,8 +137,8 @@ main {
     border-radius: 50px;
 }
 
-.form-social-logins span a {
-    color: black;
+.form-social-logins span a i {
+    color: var(--color-primary);
 }
 
 .form-group {

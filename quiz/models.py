@@ -8,32 +8,41 @@ import random
 
 
 class Category(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     category = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.category
     
 class Question(models.Model):
-    id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-    )
+    DIFFICULTY_LEVELS = (("Easy", "Easy"), ("Medium", "Medium"), ("Hard", "Hard"))
     ALLOWED_NUMBER_OF_CORRECT_CHOICES = 1
-    DIFFICULTY = (('Easy', 'Easy'), ('Regular', 'Regular'), ('Hard', 'Hard'))
     
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     question = models.TextField()
-    maximum_marks = models.DecimalField(default=4, decimal_places=2, max_digits=6)
-    difficulty_level = models.CharField(max_length=100, choices=DIFFICULTY, default=1)
+    maximum_marks = models.PositiveIntegerField(blank=True)
     image = models.ImageField(blank=True, null=True)
-    has_timer = models.BooleanField(default=False)
+    difficulty = models.TextField(choices=DIFFICULTY_LEVELS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f"{self.category} -> {self.question} -> {self.difficulty_level}"
+        return f"{self.category} -> {self.question}"
+    
+    def save(self, *args, **kwargs):
+        points = 0
+        if self.difficulty == "Easy":
+            points = 7
+        elif self.difficulty == "Medium":
+            points = 10
+        else:
+            points = 15
+        self.maximum_marks = points
+        super().save(*args, **kwargs)
+        
     
 class Choice(models.Model):
     MAX_CHOICE_COUNT = 4
@@ -47,6 +56,8 @@ class Choice(models.Model):
 class QuizProfile(TimeStampedModel):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     total_score = models.DecimalField(_('Total Score'), default=0, decimal_places=2, max_digits=10)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f'<QuizProfile: user={self.user}>'

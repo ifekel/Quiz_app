@@ -61,13 +61,11 @@
 
         <div class="announcements">
             {% for announcement in announcement_list reversed %}
-            {% if announcements_total == 0 %}
-            <h3>No announcements</h3>
-            {% else %}
             <div class="announcement-item">
                 <h3><a href="{% url 'announcement_detail' announcement.id  %}">{{ announcement.title }}</a></h3>
             </div>
-            {% endif %}
+            {% empty %}
+            <h3>No announcement</h3>
             {% endfor %}
         </div>
     </main>

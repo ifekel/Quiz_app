@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Edit Profile{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+{% endblock style %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="text-section">
+            <div class="top-content">
+                <h4>Quizzer</h4>
+            </div>
+            <div class="box-content">
+                <h2>Edit Your Profile</h2>
+                <p>Make your account up to date</p>
+                <a href="{% url 'account_change_password' %}">Change Password</a>
+            </div>
+        </div>
+        <div class="form-section">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-heading">
+                    <h1>Edit Profile</h1>
+                </div>
+
+                {{ form.as_p }}
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock content %}

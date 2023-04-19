@@ -2,19 +2,93 @@
 {% load static %}
 {% block title %}Create Quiz{% endblock title %}
 {% block style %}
-<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .createQuizSection {
+        display: flex;
+    }
+
+    form {
+        width: 60%;
+        /* background-color: #3B0A6B; */
+        padding: 20px;
+    }
+
+    form textarea {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-family: sans-serif;
+        letter-spacing: 1px;
+        height: 50px;
+        background-color: whitesmoke;
+    }
+
+    form label {
+        font-family: calisto MT;
+        font-weight: 800;
+    }
+
+    form select {
+        width: 100%;
+        height: 30px;
+        outline: none;
+    }
+
+    .form-sec {
+        width: 50%;
+        margin-left: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .img-sec {
+        width: 50%;
+        height: 100vh;
+        background: url(../../static/assets/img/image11.jpg) no-repeat;
+        background-size: cover;
+        position: fixed;
+        background-position: right;
+    }
+
+    h2 {
+        font-size: 50px;
+        letter-spacing: 2px;
+        font-family: freestyle Script;
+    }
+
+    button {
+        width: 100%;
+        height: 40px;
+        border: none;
+        font-size: 27px;
+        background: lime;
+        text-transform: uppercase;
+        font-family: freestyle script;
+    }
+</style>
 {% endblock style %}
 
 {% block content %}
-<h1>Create Question</h1>
-<h2>Create a New Question</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ question_form.as_p }}
-    {{ choice_formset.management_form }}
-    {% for form in choice_formset %}
-    {{ form.as_p }}
-    {% endfor %}
-    <button type="submit">Create</button>
-</form>
-{% endblock content %}]
+<section class="createQuizSection">
+    <div class="img-sec">
+        <h3>How to create a question</h3>
+    </div>
+    <div class="form-sec">
+        <h2>Create a new quiz question</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'question/_category_form.html' %}
+            {% include 'question/_question_form.html' %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

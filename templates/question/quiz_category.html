@@ -9,6 +9,7 @@
     section {
         width: 100%;
         height: 100vh;
+        overflow: hidden;
     }
 
     main {
@@ -53,36 +54,35 @@
         align-items: center;
     }
 
-    .search-backdrop {
-        width: 100%;
-        height: 100%;
+    .backdrop {
         position: fixed;
-        background: rgba(0, 0, 0, 0.5);
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    .circle-1 {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-color: yellow;
-        position: absolute;
-        margin-left: 20rem;
+    .backdrop h5 {
+        color: white;
+        font-size: 4rem;
+        top: 0;
+        right: 20rem;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        position: fixed;
+        cursor: pointer;
     }
 
-    .circle-2 {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background-color: red;
-        position: absolute;
+    .search-backdrop {
+        width: 40%;
+        backdrop-filter: blur(4px);
     }
 
     .form-group {
         z-index: 4;
         background: rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px);
-        height: 500px;
-        width: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -95,6 +95,7 @@
         height: 50px;
         background: none;
         border: none;
+        outline: none;
         border-bottom: 3px solid #fff;
         border-left: 3px solid #fff;
         font-size: 20px;
@@ -105,6 +106,111 @@
 
     ::placeholder {
         color: white;
+    }
+
+    .all-categories {
+        background: linear-gradient(to left, #10031d, #1f0638);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .catgeries-list {
+        margin: 0 auto;
+        padding: 0;
+        width: 40%;
+        background: rgba(0, 0, 0, 0.1);
+        height: 70%;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .catgeries-list h1 {
+        height: 70px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        background-color: #3B0A6B;
+        justify-content: center;
+        font-family: bree serif;
+        font-size: 32px;
+        color: white;
+    }
+
+    .catgeries-list ul {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .catgeries-list li {
+        width: 70%;
+        height: 50px;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .all-categories li a {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-weight: 800;
+        color: white;
+        font-family: calibri;
+        font-size: 20px;
+    }
+
+    .not-showing {
+        display: none;
+    }
+
+    .bottom-content {
+        width: 100%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        bottom: 0;
+    }
+    .bottom-content i {
+        color: #fff;
+    }
+    .bottom-content a {
+        text-decoration: none;
+        color: white;
+        font-size: 20px;
+        font-family: vivaldi;
+        letter-spacing: 3px;
+    }
+
+    .playQuiz {
+        padding: 10px;
+        background: green;
+        border-radius: 3px;
+    }
+
+    .leaderBoard {
+        padding: 10px;
+        background-color: lightcoral;
+        border-radius: 5px;
+    }
+
+    span {
+        gap: 30px;
+        display: flex;
+    }
+    @media (max-width: 1024px) {
+        nav {
+            width: 100%;
+        }
+    
     }
 </style>
 {% endblock style %}
@@ -117,34 +223,61 @@
                 <li><a href="{% url 'home_page' %}" style="font-family: cooper black; font-size: 40px;">Quizzer</a></li>
             </div>
             <div class="nav-menu-actions">
-                <li><a href=""><i class="fa fa-search"></i></a></li>
+                <li><a href="#"><i class="fa fa-search"></i></a></li>
                 <li><i class="fa fa-copyright"></i>0.00</li>
                 <li><a href="{% url 'profile' %}">{{ request.user.first_name }}</a></li>
             </div>
         </ul>
     </nav>
-    <section class="backdrop">
-        <div class="search-backdrop">
-            <div class="circle-1"></div>
-            <div class="circle-2"></div>
-            <div class="rect-1"></div>
-            <div class="form-group">
-                <input type="text" placeholder="Search">
-            </div>
+
+    <section class="all-categories">
+        <div class="catgeries-list">
+            <h1>Topics</h1>
+            <ul>
+                {% for category in categories %}
+                <li class="quiz-category-item"><a href="#">{{ category.category }}</a> <span><a href="{% url 'play' category_id=category.id page=1 %}" class="playQuiz">Play</a> <a href="" class="leaderBoard">Leader Board</a></span></li>
+                {% empty %}
+                <li>No categories found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bottom-content">
+            <i class="fa fa-plus"></i>
+            <a href="{% url 'quiz_new' %}">Create your own quiz</a>
         </div>
     </section>
 
-    <!-- {% extends 'base.html' %}
-
-    {% block content %}
-    <h1>All Categories</h1>
-    <ul>
-        {% for category in object_list %}
-        <li><a href="{% url 'quiz:category_detail' category.pk %}">{{ category.name }}</a></li>
-        {% empty %}
-        <li>No categories found.</li>
-        {% endfor %}
-    </ul>
-    {% endblock %} -->
+    <section class="backdrop not-showing">
+        <h5 class="modal-search-box-btn">X</h5>
+        <div class="search-backdrop">
+            <div class="form-group">
+                <form action="{% url 'search_result' %}" method="get">
+                    <input type="text" placeholder="Search" name="q" aria-label="Search">
+                </form>
+            </div>
+        </div>
+    </section>
 </section>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+    const show_modal_box_btn = document.querySelector(".fa-search")
+    const modal_box = document.querySelector(".backdrop");
+    const close_modal_box_btn = document.querySelector(".modal-search-box-btn");
+    let showModalBox = false;
+
+    show_modal_box_btn.addEventListener("click", (e) => {
+        showModalBox = !showModalBox;
+        console.log(showModalBox)
+
+        if (showModalBox == true) {
+            modal_box.classList.remove('not-showing')
+        }
+    })
+    close_modal_box_btn.addEventListener('click', (e) => {
+        showModalBox = !showModalBox
+        modal_box.classList.add('not-showing');
+    })
+</script>
+{% endblock javascript %}

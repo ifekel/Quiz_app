@@ -6,10 +6,19 @@ from .models import Question, Choice, Category, Message
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['author', 'category', 'question', 'image', 'maximum_marks', 'difficulty_level', 'has_timer']
-        widgets = {
-            'question': forms.Textarea(attrs={'rows': 3, 'cols': 80})
-        }
+        fields = ['question', 'image', 'difficulty']
+
+    question = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 40}))
+    image = forms.ImageField(required=False)
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['category']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['category'].widget.attrs.update({'class': 'form-control'})
 
 class MessageForm(forms.ModelForm):
     class Meta:

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Question, Choice, Category, Announcement, Message, QuizProfile, ContactMessage
-from .forms import QuestionForm, ChoiceForm, ChoiceInlineFormset, MessageForm
+from .forms import QuestionForm, ChoiceForm, ChoiceInlineFormset, MessageForm, CategoryForm
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -13,10 +13,16 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
     inlines = (ChoiceInline,)
-    list_display = ['author', 'category', 'question', 'image', 'maximum_marks', 'difficulty_level', 'has_timer', 'created_at', 'updated_at']
+    list_display = ['author', 'category', 'question', 'image', 'maximum_marks', 'difficulty', 'created_at', 'updated_at']
     search_fields = ['category', 'author', 'choices__choice_text', 'question']
     actions = None
     form = QuestionForm
+    
+class CategoryAdmin(admin.ModelAdmin):
+    model = Category
+    list_display = ['author', 'category']
+    list_display_links = ['author', 'category']
+    form = CategoryForm
     
 class AnnouncementAdmin(admin.ModelAdmin):
     model = Announcement
@@ -24,7 +30,7 @@ class AnnouncementAdmin(admin.ModelAdmin):
 
 class QuizProfileAdmin(admin.ModelAdmin):
     model = QuizProfile
-    list_display = ['user', 'total_score']
+    list_display = ['user', 'total_score', 'question']
     
 class MessageAdmin(admin.ModelAdmin):
     model = Message
@@ -35,7 +41,7 @@ class ContactMessageAdmin(admin.ModelAdmin):
     model = ContactMessage
     list_display = ['first_name', 'last_name', 'email_address', 'phone_number', 'message', 'created_at']
 
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Announcement, AnnouncementAdmin)
 admin.site.register(QuizProfile, QuizProfileAdmin)
