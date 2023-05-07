@@ -1,0 +1,48 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Quiz Analytics</h1>
+    {% for data in quiz_data %}
+    <h2>{{ data.category }}</h2>
+    <canvas id="quiz-chart-{{ forloop.counter }}" width="400" height="200"></canvas>
+    {% endfor %}
+</div>
+{% endblock%}
+
+{% block javascript %}
+<script>
+    {% for data in quiz_data %}
+    var quizChart{{ forloop.counter }} = new Chart(document.getElementById("quiz-chart-{{ forloop.counter }}"), {
+        type: 'line',
+        data: {
+            labels: [{% for quiz in data.quizzes %}"{{ quiz.times_taken }}",{% endfor %}],
+        datasets: [
+        {
+            label: 'Times Taken',
+            data: [{% for quiz in data.quizzes %}{{ quiz.times_taken }}, {% endfor %}],
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)'
+                },
+        {
+            label: 'Failed',
+            data: [{% for quiz in data.quizzes %}{{ quiz.num_failed }}, {% endfor %}],
+        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)'
+                }
+            ]
+        },
+        options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+    });
+    {% endfor %}
+</script>
+
+{% endblock javascript %}

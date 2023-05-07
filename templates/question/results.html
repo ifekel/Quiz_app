@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Quiz Results{% endblock title %}
+
+{% block style %}
+{% endblock style %}
+
+{% block content %}
+<h2>{{ category.name }} Results</h2>
+<p>You got {{ score }} out of {{ num_questions }} questions correct!</p>
+<p>Your score is {{ percentage_score }}%</p>
+{% endblock %}

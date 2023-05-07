@@ -13,15 +13,15 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
     inlines = (ChoiceInline,)
-    list_display = ['author', 'category', 'question', 'image', 'maximum_marks', 'difficulty', 'created_at', 'updated_at']
+    list_display = ['author', 'category', 'question', 'image', 'created_at', 'updated_at']
     search_fields = ['category', 'author', 'choices__choice_text', 'question']
     actions = None
     form = QuestionForm
     
 class CategoryAdmin(admin.ModelAdmin):
     model = Category
-    list_display = ['author', 'category']
-    list_display_links = ['author', 'category']
+    list_display = ['author', 'category', 'difficulty']
+    list_display_links = ['author', 'category', 'difficulty']
     form = CategoryForm
     
 class AnnouncementAdmin(admin.ModelAdmin):

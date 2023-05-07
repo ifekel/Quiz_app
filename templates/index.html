@@ -19,26 +19,25 @@
     <main>
         <nav>
             {% if request.user.is_authenticated %}
-            <h1><a href="{% url 'home_page' %}">Dasboard</a></h1>
+            <h1 style="width: 100%; margin-left: 20px;"><a href="{% url 'home_page' %}">{{ request.user.first_name }}'s Dashboard</a></h1>
             {% else %}
             <h1><a href="{% url 'home_page' %}">Quizzer</a></h1>
             {% endif %}
             <div class="nav-menu">
-                <div class="language">
+                <!-- <div class="language">
                     <i class="fa fa-globe" aria-hidden="true"></i>
                     <select name="lang" id="lang">
                         <option value="English">EN - English</option>
                         <option value="French">FR - French</option>
                     </select>
-                </div>
+                </div> -->
                 <ul>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'messages' %}"><i class="fa fa-envelope"></i></a></li>
                     <li><a href="{% url 'announcements' %}"><i class="fa fa-bell"></i></a></li>
-                    <li style="color: black;"><i class="fa fa-copyright"></i> 0.00</li>
+                    <li style="color: black;"><i class="fa fa-copyright"></i>{{ quiz_profile.user }}</li>
                     <!-- <li><a href="{% url 'profile' %}"><img src="{{ user.profile_pic }}" alt="{{ user.profile_pic }}"></a></li> -->
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="{% url 'account_logout' %}" ><i class="fas fa-power-off"></i></a></li>
+                    <li><a href="{% url 'profile' %}" class="profile_name">{{ request.user.first_name|slice:":1" }}</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}" class="login">Login</a></li>
                     <li><a href="{% url 'signup' %}" class="login">Signup</a></li>
@@ -126,7 +125,7 @@
                             </div>
                         </div>
                         <div class="go-to-page">
-                            <span><a href="">More info <i class="fa fa-chevron-right"></i></a></span>
+                            <span><a href="{% url 'quiz_taken' %}">More info <i class="fa fa-chevron-right"></i></a></span>
                         </div>
                     </div>
                     <div class="content-item">
@@ -140,53 +139,45 @@
                             </div>
                         </div>
                         <div class="go-to-page">
-                            <a href=""><span>More info</span> <i class="fa fa-chevron-right"></i></a>
+                            <a href="{% url 'quiz_created' %}"><span>More info</span> <i class="fa fa-chevron-right"></i></a>
                         </div>
                     </div>
                     <div class="content-item">
                         <div class="main-item">
                             <div class="ttt">
-                                <h4>Friend(s)</h4>
-                                <h3>0</h3>
+                                <h4>Analytics</h4>
+                                <h3>view analytics</h3>
                             </div>
                             <div class="box-content">
-                                <i class="fa fa-users"></i>
+                                <i class="fa fa-chart-bar"></i>
                             </div>
                         </div>
                         <div class="go-to-page">
-                            <span><a href="">More info <i class="fa fa-chevron-right"></i></a></span>
+                            <span><a href="{% url 'quiz_analytics' %}">More info <i class="fa fa-chevron-right"></i></a></span>
                         </div>
                     </div>
                     <div class="content-item">
                         <div class="main-item">
                             <div class="ttt">
-                                <h4>Announcement(s)</h4>
-                                <h3>{{ total_announcement }}</h3>
+                                <h4>Message(s)</h4>
+                                <h3>{{ total_message }}</h3>
                             </div>
                             <div class="box-content">
-                                <i class="fa fa-bullhorn"></i>
+                                <i class="fa fa-comments"></i>
                             </div>
                         </div>
                         <div class="go-to-page">
-                            <span><a href="">More info <i class="fa fa-chevron-right"></i></a></span>
+                            <span><a href="{% url 'messages' %}">More info <i class="fa fa-chevron-right"></i></a></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="bottom-content">
-                    <div class="chart"></div>
-                    <div class="announcements">
-                        <div class="box-top">
-                            <h3>announcements <i class="fa fa-bell"></i></h3>
-                        </div>
-                        <div class="announcement-list">
-                            {% for announcement in announcements %}
-                            <div class="announcement-item">
-                                <h5>{{ announcement.title }}</h5>
-                                <p>{{ announcement.body }}</p>
-                            </div>
-                            {% endfor %}
-                        </div>
+                    <div class="chart" id="quiz-chart">
+                        <img src="data:image/png;base64,{{ chart_image }}" alt="Quiz Scores Chart">
+                    </div>
+                    <div class="quiz-appearance">
+
                     </div>
                 </div>
             </div>
@@ -241,20 +232,25 @@
 {% endblock content %}
 {% block javascript %}
 <script>
-    const fa_bars = document.querySelector('.fa-bars');
-    const responsive_nav_bar = document.querySelector('.responsive-nav-bar');
-    const close = document.querySelector('.close');
+    (function () {
+        "use strict"
 
-    fa_bars.addEventListener('click', (e) => {
-        responsive_nav_bar.style.left = '0';
-        close.style.display = 'block';
-        fa_bars.style.display = 'none';
-    })
+        const fa_bars = document.querySelector('.fa-bars');
+        const responsive_nav_bar = document.querySelector('.responsive-nav-bar');
+        const close = document.querySelector('.close');
 
-    close.addEventListener('click', (e) => {
-        responsive_nav_bar.style.left = '-200%';
-        close.style.display = 'none';
-        fa_bars.style.display = 'block';
+        fa_bars.addEventListener('click', (e) => {
+            responsive_nav_bar.style.left = '0';
+            close.style.display = 'block';
+            fa_bars.style.display = 'none';
+        })
+
+        close.addEventListener('click', (e) => {
+            responsive_nav_bar.style.left = '-200%';
+            close.style.display = 'none';
+            fa_bars.style.display = 'block';
+        })
+
     })
 </script>
 {% endblock javascript %}

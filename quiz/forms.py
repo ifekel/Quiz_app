@@ -6,7 +6,7 @@ from .models import Question, Choice, Category, Message
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ['question', 'image', 'difficulty']
+        fields = ['author', 'question', 'image', 'category']
 
     question = forms.CharField(widget=forms.Textarea(attrs={'rows': 3, 'cols': 40}))
     image = forms.ImageField(required=False)
@@ -14,7 +14,7 @@ class QuestionForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['category']
+        fields = ['author', 'category', 'difficulty']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

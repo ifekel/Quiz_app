@@ -1,0 +1,182 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Category{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+<style>
+    section {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    main {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        font-family: fira sans;
+    }
+
+    nav {
+        background-color: #3B0A6B;
+    }
+
+    nav ul {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        list-style-type: none;
+    }
+
+    nav ul li a {
+        color: white;
+        font-family: sans-serif;
+        font-size: 17px;
+    }
+
+    .banner {
+        display: flex;
+        width: 20%;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-menu-actions {
+        width: 20%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .backdrop {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .backdrop h5 {
+        color: white;
+        font-size: 4rem;
+        font-family: Arial rounded mt;
+        top: 0;
+        right: 20rem;
+        position: fixed;
+        cursor: pointer;
+    }
+
+    .search-backdrop {
+        width: 60%;
+        backdrop-filter: blur(4px);
+    }
+
+    .form-group {
+        z-index: 4;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10rem auto;
+        padding: 30px;
+    }
+
+    .form-group input {
+        width: 100%;
+        height: 50px;
+        background: none;
+        border: none;
+        outline: none;
+        border-left: 1px solid #fff;
+        font-size: 20px;
+        color: white;
+        font-family: sans-serif;
+        padding-left: 10px;
+    }
+
+    ::placeholder {
+        color: white;
+    }
+
+    .not-showing {
+        display: none;
+    }
+
+    @media (max-width: 1024px) {
+        nav {
+            width: 100%;
+        }
+
+    }
+
+    .all-categories {
+        min-width: 100%;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<nav>
+    <ul>
+        <div class="banner">
+            <li><a href="{% url 'home_page' %}" style="font-family: cooper black; font-size: 40px;">Quizzer</a></li>
+        </div>
+        <div class="nav-menu-actions">
+            <li><a href="#"><i class="fa fa-search"></i></a></li>
+            <li><i class="fa fa-copyright"></i>0.00</li>
+            <li><a href="{% url 'profile' %}" class="profile_name">{{ request.user.first_name|slice:":1" }}</a></li>
+        </div>
+    </ul>
+</nav>
+
+<section class="all-categories">
+    <h1>Quiz Categories</h1>
+    {% for category_data in categories %}
+    <h2>{{ category_data.category }}</h2>
+    <span><a href="{% url 'play' category_data.id %}?question_index=0">Play</a></span>
+    {% endfor %}
+</section>
+
+<section class="backdrop not-showing">
+    <h5 class="modal-search-box-btn">X</h5>
+    <div class="search-backdrop">
+        <form action="{% url 'search_result' %}" method="get">
+            <div class="form-group">
+                <input type="text" placeholder="Search" name="q" aria-label="Search">
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    const show_modal_box_btn = document.querySelector(".fa-search")
+    const modal_box = document.querySelector(".backdrop");
+    const close_modal_box_btn = document.querySelector(".modal-search-box-btn");
+    let showModalBox = false;
+
+    show_modal_box_btn.addEventListener("click", (e) => {
+        showModalBox = !showModalBox;
+        console.log(showModalBox)
+
+        if (showModalBox == true) {
+            modal_box.classList.remove('not-showing')
+        }
+    })
+    close_modal_box_btn.addEventListener('click', (e) => {
+        showModalBox = !showModalBox
+        modal_box.classList.add('not-showing');
+    })
+</script>
+{% endblock javascript %}

@@ -1,46 +1,32 @@
 {% extends '_base.html' %}
-{% load static %}
-{% block title %}Play Quzi{% endblock title %}
-
-{% block style %}
-{% endblock style %}
-
 
 {% block content %}
-
-  <h1>Quiz - {{ category }}</h1>
-  {% if page_obj.has_previous %}
-    <a href="{% url 'play' category_id=category.id page=page_obj.previous_page_number %}">
-      &laquo; Previous
-    </a>
-  {% endif %}
-  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-  {% if page_obj.has_next %}
-    <a href="{% url 'play' category_id=category.id page=page_obj.next_page_number %}">
-      Next &raquo;
-    </a>
-  {% endif %}
-  <hr>
-  <form method="post">
-    {% csrf_token %}
-    {% for question in page_obj %}
-      <h2>{{ question.question }}</h2>
-      {% if question.image %}
-        <img src="{{ question.image.url }}" alt="Question image">
-      {% endif %}
-      {% for choice in question.choice_set.all %}
-        <label>
-          <input type="radio" name="question-{{ question.id }}" value="{{ choice.id }}">
-          {{ choice.choice_text }}
-        </label><br>
-      {% endfor %}
+<h1>{{ category.category }} Quiz</h1>
+<form method="post">
+  {% csrf_token %}
+  {% for question in questions %}
+  <div class="question">
+    <h3>{{ question.question }}</h3>
+    {% if question.image %}
+    <img src="{{ question.image.url }}" alt="{{ question.question }}">
+    {% endif %}
+    {% for choice in question.choices.all %}
+    <input type="radio" id="choice_{{ choice.id }}" name="answer_{{ question.id }}" value="{{ choice.id }}">
+    <label for="choice_{{ choice.id }}">{{ choice.choice_text }}</label><br>
     {% endfor %}
-    <br>
-    <input type="submit" value="Submit">
-  </form>
-  <hr>
-  {% if score %}
-    <h2>You scored {{ score }} out of {{ page_obj.object_list.0.maximum_marks }} points for this page</h2>
+    {% if not question.user_answered %}
+    <span class="error">Please select an answer.</span>
+    {% endif %}
+  </div>
+  {% endfor %}
+  {% if has_previous %}
+  <button type="submit" name="action" value="previous">Previous</button>
   {% endif %}
-  <h2>Your total score is {{ quiz_profile.total_score }} points</h2>
+  {% if has_next %}
+  <button type="submit" name="action" value="next">Next</button>
+  {% endif %}
+  {% if not has_next %}
+  <button type="submit" name="action" value="end">End Quiz</button>
+  {% endif %}
+</form>
 {% endblock %}

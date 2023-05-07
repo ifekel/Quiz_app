@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+<h1>Quiz Created</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Number of Quizzes</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in quiz_data %}
+        <tr>
+            <td>{{ data.category }}</td>
+            <td>{{ data.num_quizzes }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

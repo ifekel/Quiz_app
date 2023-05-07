@@ -26,15 +26,20 @@
         font-size: 20px;
         width: 100%;
         height: 70px;
-        display: flex;
-        align-items: center;
-        justify-content: start;
         gap: 10px;
         transition: all .4s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+        font-style: normal;
+        font-weight: 800;
     }
+
     .side-nav ul {
         width: 100%;
     }
+
     .side-nav ul li {
         width: 100%;
     }
@@ -47,6 +52,7 @@
         color: #fff;
         background-color: #3B0A6B;
     }
+
     .side-nav a i:hover {
         color: #fff;
         background-color: #3B0A6B;
@@ -76,42 +82,42 @@
             {% url 'home_page' as home_page %}
             <li>
                 <a href="{{ home_page }}" title="Home">
-                    <i class="fas fa-th-large {% if home_page == request.path %} active {% endif %}"> <span>Dashboard</span></i>
+                    <i class="{% if home_page == request.path %} active {% endif %}"> <span>Dashboard</span></i>
                 </a>
             </li>
 
             {% url 'category' as category %}
             <li>
                 <a href="{{category}}" title="Quiz">
-                    <i class="fa fa-question {% if category == request.path %} active {% endif %}" aria-hidden="true"> <span>Quiz</span></i>
+                    <i class="{% if category == request.path %} active {% endif %}" aria-hidden="true"> <span>Quiz</span></i>
                 </a>
             </li>
 
             {% url 'messages' as messages %}
             <li>
                 <a href="{{ messages }}" title="Messages">
-                    <i class="fa fa-comment {% if messages == request.path %} active {% endif %}" aria-hidden="true"> <span>Messages</span></i>
+                    <i class="{% if messages == request.path %} active {% endif %}" aria-hidden="true"> <span>Messages</span></i>
                 </a>
             </li>
 
             {% url 'announcements' as announcements %}
             <li>
                 <a href="{{ announcements }}" title="Announcements">
-                    <i class="fa fa-bell {% if announcements == request.path %} active {% endif %}" aria-hidden="true"> <span>Announcement</span></i>
+                    <i class="{% if announcements == request.path %} active {% endif %}" aria-hidden="true"> <span>Announcement</span></i>
                 </a>
             </li>
 
             {% url 'profile' as profile %}
             <li>
                 <a href="{{ profile }}" title="Profile">
-                    <i class="fas fa-address-card {% if profile == request.path %} active {% endif %}" aria-hidden="true"> <span>profile</span></i>
+                    <i class="{% if profile == request.path %} active {% endif %}" aria-hidden="true"> <span>profile</span></i>
                 </a>
             </li>
 
             {% url 'account_logout' as account_logout %}
             <li>
                 <a href="{{ account_logout }}" title="Profile">
-                    <i class="fas fa-power-off" aria-hidden="true"> <span>Logout</span></i>
+                    <i aria-hidden="true"> <span>Logout</span></i>
                 </a>
             </li>
 
@@ -119,27 +125,27 @@
             {% url 'home_page' as home_page %}
             <li>
                 <a href="{{ home_page }}" title="Home">
-                    <i class="bi bi-house {% if home_page == request.path %} active {% endif %}"> <span>Home</span></i>
+                    <i class="{% if home_page == request.path %} active {% endif %}"> <span>Home</span></i>
                 </a>
             </li>
 
             {% url 'about_page' as about_page %}
             <li>
                 <a href="{{about_page}}" title="About">
-                    <i class="bi bi-info {% if about_page == request.path %} active {% endif %}" aria-hidden="true"> <span>About</span></i>
+                    <i class="{% if about_page == request.path %} active {% endif %}" aria-hidden="true"> <span>About</span></i>
                 </a>
             </li>
 
             <li>
                 <a href="" title="FAQs">
-                    <i class="bi bi-question" aria-hidden="true"> <span>FAQs</span></i> 
+                    <i class="" aria-hidden="true"> <span>FAQs</span></i>
                 </a>
             </li>
 
             {% url 'contact_page' as contact_page %}
             <li>
                 <a href="{{ contact_page }}" title="Contact">
-                    <i class="bi bi-envelope {% if contact_page == request.path %} active {% endif %}" aria-hidden="true"> <span>Contact</span></i>
+                    <i class="{% if contact_page == request.path %} active {% endif %}" aria-hidden="true"> <span>Contact</span></i>
                 </a>
             </li>
             {% endif %}

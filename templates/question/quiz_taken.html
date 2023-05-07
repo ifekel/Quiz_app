@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Quiz History</h1>
+    {% if quiz_history %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total Score</th>
+                <th>Time Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz_profile in quiz_history %}
+            <tr>
+                <td>{{ quiz_profile.category.category }}</td>
+                <td>{{ quiz_profile.total_score }}%</td>
+                <td>{{ quiz_profile.get_duration }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No quiz history found.</p>
+    {% endif %}
+</div>
+{% endblock %}

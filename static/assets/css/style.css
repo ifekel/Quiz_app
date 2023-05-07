@@ -10,7 +10,7 @@ body {
     --color-secondary: lightblue;
 }
 
-section{
+section {
     width: 100%;
     height: 100vh;
     background: #fff;
@@ -28,9 +28,9 @@ main {
     margin-left: 110px;
     height: 92%;
     padding-left: 30px;
-}  
+}
 
-nav{
+nav {
     width: 100%;
     height: 70px;
     display: flex;
@@ -39,7 +39,7 @@ nav{
     color: white;
 }
 
-nav h1 a{
+nav h1 a {
     text-decoration: none;
     color: black;
     font-size: 2rem;
@@ -52,7 +52,7 @@ nav li a {
     text-decoration: none;
 }
 
-.nav-menu{
+.nav-menu {
     width: 100%;
     display: flex;
     align-items: center;
@@ -83,7 +83,7 @@ nav li a {
     border-radius: 0;
 }
 
-.login, 
+.login,
 .signup {
     text-decoration: none;
     padding: 10px 20px;
@@ -100,7 +100,7 @@ nav li a {
     border: 2px solid black;
 }
 
-.fa-globe{
+.fa-globe {
     font-size: 20px;
     color: black;
 }
@@ -157,7 +157,7 @@ nav li a {
 }
 
 .responsive-nav-bar ul li:hover {
-    background-color: rgba(109,8,134,1);
+    background-color: rgba(109, 8, 134, 1);
 }
 
 .responsive-nav-bar ul li:hover a {
@@ -167,15 +167,16 @@ nav li a {
 .responsive-nav-bar ul li.active a {
     color: white;
 }
+
 .responsive-nav-bar ul li.active {
-    background-color: rgba(109,8,134,1);
+    background-color: rgba(109, 8, 134, 1);
 }
 
 /* End Nav */
 
 /* Content */
 
-.home-content{
+.home-content {
     width: 100%;
     height: 90vh;
     display: flex;
@@ -191,7 +192,7 @@ nav li a {
     flex-direction: column;
 }
 
-.text-container h1{
+.text-container h1 {
     font-size: 60px;
     text-transform: capitalize;
     font-family: arial rounded mt semibold;
@@ -200,7 +201,7 @@ nav li a {
 
 .text-container a {
     padding: 15px 50px;
-    border: 2px solid rgba(109,8,134,1);
+    border: 2px solid rgba(109, 8, 134, 1);
     color: black;
     border-radius: 30px;
     font-size: 25px;
@@ -210,10 +211,10 @@ nav li a {
 }
 
 .text-container a:hover {
-    background-color: rgba(109,8,134,1);
+    background-color: rgba(109, 8, 134, 1);
 }
 
-.img-div{
+.img-div {
     width: 50%;
     height: 100%;
 }
@@ -225,7 +226,7 @@ nav li a {
     height: 100%;
 }
 
-.nft{
+.nft {
     width: 330px;
     height: 400px;
     margin-left: 50px;
@@ -239,7 +240,8 @@ nav li a {
 
 .top-box {
     display: flex;
-    gap: 20px;padding: 30px;
+    gap: 20px;
+    padding: 30px;
 }
 
 .content-item {
@@ -249,11 +251,13 @@ nav li a {
     width: 100%;
     border-radius: 5px;
 }
+
 .content-item .main-item {
     display: flex;
     padding: 20px;
     justify-content: space-between;
 }
+
 .go-to-page {
     height: 35px;
     display: flex;
@@ -313,7 +317,7 @@ nav li a {
     color: #3B0A6B;
 }
 
-.content-item:hover .content-item i  {
+.content-item:hover .content-item i {
     /* transform: scale(2, 3); */
     color: white;
 }
@@ -326,45 +330,35 @@ nav li a {
     gap: 20px;
 }
 
-.chart {
-    width: 75%;
-    height: 90%;
-    /* border: 2px solid #fff; */
-    border-radius: 10px
+.profile_name {
+    padding: 15px 22px;
+    font-weight: 800;
+    color: white;
+    font-size: 20px;
+    background-color: #3B0A6B;
+    font-family: squada one;
+    border-radius: 50px;
 }
-.announcements {
-    width: 25%;
+
+.chart {
+    width: 50%;
+    height: 90%;
+    border-radius: 10px;
+    padding-left: 20px;
+}
+
+.quiz-appearance {
+    width: 50%;
     height: 90%;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.4);
     color: white;
-    background:#3B0A6B;
+    background: #3B0A6B;
 }
 
 .box-top {
     height: 70px;
     margin: 0;
-}
-
-.announcements h3 {
-    text-transform: capitalize;
-    font-family: sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 100%;
-    margin: 0;
-}
-
-.announcement-list {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* font-family: sans-serif; */
-}
-
-.announcement-item {
-    width: 90%;
 }
 
 
@@ -373,6 +367,7 @@ nav li a {
     section {
         height: 200vh;
     }
+
     .text-container h1 {
         font-size: 50px;
     }
@@ -389,32 +384,40 @@ nav li a {
 }
 
 @media (max-width: 1024px) {
-    .text-container h1{ 
+    .text-container h1 {
         font-size: 40px;
     }
+
     .text-container {
         margin-left: 20px;
     }
+
     .content .top-box {
         display: grid;
         grid-template-columns: auto auto;
     }
+
     .content-item {
         width: 85%;
     }
+
     nav {
         width: 95%;
     }
+
     .bottom-content {
         width: 90%;
     }
+
     .chart {
         width: 100%;
         background-color: orange;
     }
+
     .announcements {
         display: none;
     }
+
     .catgeries-list {
         width: 70% !important;
     }
@@ -424,6 +427,7 @@ nav li a {
     .responsive-nav-bar {
         box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
     }
+
     .home-content {
         width: 100%;
     }
@@ -436,17 +440,17 @@ nav li a {
         margin-left: 0;
         width: 100%;
         padding-left: 0;
-    }  
+    }
 
-    .text-container h1{ 
+    .text-container h1 {
         font-size: 27px;
     }
 
-    .text-container a{ 
+    .text-container a {
         padding: 15px 25px;
     }
 
-    .nft{
+    .nft {
         width: 300px;
         height: 300px;
         margin-left: 50px;
@@ -465,16 +469,19 @@ nav li a {
     .close {
         display: none;
     }
+
     .language {
         padding: 10px;
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
     .login {
         width: 100%;
         border: none;
         padding: 0;
     }
+
     .bottom-content {
         width: 92%;
     }
@@ -485,6 +492,7 @@ nav li a {
         display: grid;
         grid-template-columns: auto;
     }
+
     .content-item {
         width: 94%;
     }
@@ -494,6 +502,7 @@ nav li a {
     section {
         height: auto;
     }
+
     .form-content {
         display: block !important;
     }
@@ -505,22 +514,26 @@ nav li a {
     .contact-container form {
         width: 100%;
         background-color: red;
-    }   
+    }
 
     .home-content {
         display: block;
     }
+
     .text-container {
         width: 100%;
     }
+
     .text-container h1 {
         font-size: 2rem;
     }
+
     .text-container a {
         padding: 5px 20px;
         font-size: 17px;
         font-weight: 800;
     }
+
     .img-div {
         display: none;
     }

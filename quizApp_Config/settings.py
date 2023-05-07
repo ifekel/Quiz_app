@@ -28,18 +28,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    
-# Third Party
+
+    # Third Party
     'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
+
     # Local apps
     'quiz.apps.QuizConfig',
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
-    
+
     # Include the social providers I wish to use
     'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.apple',
@@ -55,13 +55,13 @@ JAZZMIN_SETTINGS = {
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": "Quizzer",
-    
+
     # Welcome text on the login screen
     "welcome_sign": "Welcome to Quizzer Admin",
-    
+
     # Copyright on the footer
     "copyright": "Quizzer Ltd",
-    
+
     "changeform_format": "collapsible",
 
 }
@@ -69,7 +69,7 @@ JAZZMIN_SETTINGS = {
 # Django-allauth config
 
 # Where to redirect a user after logging in / out
-LOGIN_REDIRECT_URL = 'login'                                                                          
+LOGIN_REDIRECT_URL = 'login'
 ACCOUNT_LOGOUT_REDIRECT = 'login'
 
 SITE_ID = 1
@@ -84,7 +84,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "access_type": "online",
         }
     },
-    
+
     'facebook': {
         'METHOD': 'oauth2',
         # 'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
@@ -142,7 +142,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
     # My middleware
 ]
 
@@ -243,15 +243,15 @@ AUTH_USER_MODEL = 'users.CustomUser'
 TIME_ZONE = 'Africa/Lagos'
 
 # How we are gonna send email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 
-# EMAIL_HOST_USER = 'ifeanyionyekwelu786@gmail.com' 
-# EMAIL_HOST_PASSWORD = 'ifyonyekeshy7'
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = "School Management System <admin@admin.com>"
+EMAIL_HOST_USER = 'quizzer.sup@gmail.com'
+EMAIL_HOST_PASSWORD = 'gjdgkfapwjkbuyfv'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "quizzer.sup@gmail.com"
 
 
 # EMAIL ONLY LOGIN
@@ -259,5 +259,3 @@ ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-
-DEFAULT_FROM_EMAIL = 'quizzer@support.com'
