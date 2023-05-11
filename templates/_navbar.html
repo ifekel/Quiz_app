@@ -10,7 +10,7 @@
 
     .side-nav {
         position: fixed;
-        width: 120px;
+        width: 140px;
         /* border-right: 10px solid black; */
         box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
         height: 100%;
@@ -86,28 +86,28 @@
                 </a>
             </li>
 
-            {% url 'category' as category %}
+            {% url 'quiz:category' as category %}
             <li>
                 <a href="{{category}}" title="Quiz">
                     <i class="{% if category == request.path %} active {% endif %}" aria-hidden="true"> <span>Quiz</span></i>
                 </a>
             </li>
 
-            {% url 'messages' as messages %}
+            {% url 'quiz:messages' as messages %}
             <li>
                 <a href="{{ messages }}" title="Messages">
                     <i class="{% if messages == request.path %} active {% endif %}" aria-hidden="true"> <span>Messages</span></i>
                 </a>
             </li>
 
-            {% url 'announcements' as announcements %}
+            {% url 'quiz:announcements' as announcements %}
             <li>
                 <a href="{{ announcements }}" title="Announcements">
                     <i class="{% if announcements == request.path %} active {% endif %}" aria-hidden="true"> <span>Announcement</span></i>
                 </a>
             </li>
 
-            {% url 'profile' as profile %}
+            {% url 'quiz:profile' as profile %}
             <li>
                 <a href="{{ profile }}" title="Profile">
                     <i class="{% if profile == request.path %} active {% endif %}" aria-hidden="true"> <span>profile</span></i>

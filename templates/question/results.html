@@ -1,12 +1,153 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Quiz Results{% endblock title %}
+{% block title %}Results{% endblock title %}
 
 {% block style %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    .container {
+        border: 2px solid #3B0A6B;
+        padding: 20px;
+        text-align: center;
+        width: 35%;
+        margin: 0 auto;
+        margin-top: 10%;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        animation: glowing-border 2s infinite;
+    }
+
+    h1 {
+        font-size: 50px;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 25px;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 10px;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 15px;
+        text-decoration: none;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+        margin: 0 10px;
+    }
+
+    .glow-border {
+        border: 2px solid #3B0A6B;
+        border-radius: 10px;
+        display: flex;
+        width: 20%;
+        margin: 0 auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @keyframes glowing-border {
+        0% {
+            box-shadow: 0 0 5px #3B0A6B;
+        }
+
+        50% {
+            box-shadow: 0 0 20px #3B0A6B, 0 0 40px #932F6D, 0 0 60px #FF5050;
+        }
+
+        100% {
+            box-shadow: 0 0 5px #3B0A6B;
+        }
+    }
+
+    .sparks {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 1;
+        background: url('{% static "images/sparks.png" %}') repeat;
+        animation: sparks 1s steps(6) infinite;
+    }
+
+    @keyframes sparks {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 0 -1200px;
+        }
+    }
+
+    .lightning {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 2;
+        background: url('{% static "images/lightning.png" %}') repeat;
+        opacity: 0.5;
+        animation: lightning 2s steps(6) infinite;
+    }
+
+    @keyframes lightning {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 0 -1200px;
+        }
+    }
+
+    i {
+        font-size: 20px;
+        padding: 10px 15px;
+        border-radius: 50px;
+        border: 1px solid black;
+        color: #3B0A6B;
+    }
+
+    a {
+        margin-bottom: 2rem;
+    }
+</style>
 {% endblock style %}
 
 {% block content %}
-<h2>{{ category.name }} Results</h2>
-<p>You got {{ score }} out of {{ num_questions }} questions correct!</p>
-<p>Your score is {{ percentage_score }}%</p>
+<div class="container">
+    <div class="sparks"></div>
+    <div class="lightning"></div>
+
+    <h1>Quiz Results</h1>
+    <p>Category: {{ category.category }}</p>
+    <p>Total Questions: {{ num_questions }}</p>
+    <p>Score: {{ score }}</p>
+    <p>Percentage Score: {{ percentage_score }}%</p>
+
+    <p>Share your results:</p>
+    <a href="whatsapp://send?text=I scored {{ percentage_score }}% on the {{ category.category }} quiz! Check it out: {{ share_link }}">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ share_link }}">
+        <i class="bi bi-facebook"></i>
+    </a>
+    <br>
+    <!-- Add icons and links for other social media platforms as desired -->
+
+    <h3><a href="{% url 'home_page' %}">Go home</a></h3>
+</div>
 {% endblock %}

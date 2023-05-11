@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
-from quiz.models import Announcement, ContactMessage, Question, Message, QuizProfile
+from quiz.models import Announcement, ContactMessage, Question, Message, QuizProfile, Category
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView, DetailView, TemplateView
 from django.contrib import messages
 from django.db.models import Count
 import matplotlib.pyplot as plt
 from django.http import HttpResponse
+from xhtml2pdf import pisa
 from io import BytesIO
 import base64
+from chartjs.views.lines import BaseLineChartView
 
 # Create your views here.
 
@@ -22,29 +24,72 @@ def home(request):
             total_quiz_created_by_user = len(quiz_created_by_user)
             quiz_profile = QuizProfile.objects.get(user=request.user)
 
-            # Get quiz data for the bar chart
-            quiz_categories = QuizProfile.objects.filter(user=request.user).values(
-                'category__category').annotate(count=Count('category__category')).order_by('-count')
-            categories = [category['category__category']
-                          for category in quiz_categories]
-            counts = [category['count'] for category in quiz_categories]
+            # Retrieve the category with the highest participation
+            category_participation = Category.objects.annotate(num_participants=Count(
+                'question__quizprofile')).order_by('-num_participants').first()
 
-            # Generate the bar chart
-            plt.barh(categories, counts)
-            plt.xlabel('Number of Participants')
-            plt.ylabel('Quiz Category')
-            plt.title('Most Participants')
+            # Get the category name and its participation count
+            category_name = category_participation.category
+            participation_count = category_participation.num_participants
 
-            chart_image = BytesIO()
-            plt.savefig(chart_image, format='png')
-            chart_image.seek(0)
+            # Create the chart using Chart.js
+            class ChartView(BaseLineChartView):
+                def get_labels(self):
+                    return [category_name]
 
-            # Pass the chart image to the template context
+                def get_providers(self):
+                    return ["Participation Count"]
+
+                def get_data(self):
+                    return [[int(participation_count)]]
+
+                def get_options(self):
+                    return {
+                        'scales': {
+                            'y': {
+                                'beginAtZero': True,
+                                'precision': 0
+                            }
+                        },
+                        'responsive': True,
+                        'maintainAspectRatio': False
+                    }
+
+                def render_to_response(self, context, **response_kwargs):
+                    chart = self.get_chart()
+                    chart.generate()
+                    chart_data = chart.chart.to_data_uri()
+
+                    # Render the chart in the template
+                    template = get_template('index.html')
+                    context = {
+                        'quiz_profile': 'quiz_profile',
+                        'total_message': total_messages,
+                        'total_quiz_created_by_user': total_quiz_created_by_user,
+                        'chart_data': chart_data,
+                    }
+                    html = template.render(context)
+
+                    # Generate PDF from the HTML template
+                    result = BytesIO()
+                    pdf = pisa.pisaDocument(
+                        BytesIO(html.encode("UTF-8")), result)
+                    if not pdf.err:
+                        response = HttpResponse(
+                            result.getvalue(), content_type='application/pdf')
+                        response['Content-Disposition'] = 'attachment; filename="chart.pdf"'
+                        return response
+
+                    return HttpResponse("Error generating PDF", status=500)
+
+            chart_view = ChartView()
+            chart_data = chart_view.get_options()
+
             context = {
+                'chart_data': chart_data,
                 'quiz_profile': 'quiz_profile',
                 'total_message': total_messages,
                 'total_quiz_created_by_user': total_quiz_created_by_user,
-                'chart_image': base64.b64encode(chart_image.getvalue()).decode('utf8')
             }
             return render(request, 'index.html', context)
         return render(request, 'index.html')

@@ -8,6 +8,7 @@ from django.conf.urls import handler404, handler500, handler403
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('quiz.urls')),
+    path('', include('quiz.urls', namespace='quiz')),
     path('', include('pages.urls')),
     path('', include('allauth.urls')),
     path('accounts/', include('allauth.urls')),

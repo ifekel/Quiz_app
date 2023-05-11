@@ -56,12 +56,9 @@ class QuizProfile(TimeStampedModel):
         _('Total Score'), default=0, decimal_places=2, max_digits=10)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-    good_performance = models.PositiveIntegerField(default=0)
-    bad_performance = models.PositiveIntegerField(default=0)
+    recent_score = models.DecimalField(
+        _('Recent Score'), default=0, decimal_places=2, max_digits=10)
     times_taken = models.PositiveIntegerField(default=0)
-    has_failed = models.BooleanField(default=False)
-    start_time = models.DateTimeField(null=True, blank=True)
-    end_time = models.DateTimeField(null=True, blank=True)
 
     def start_quiz(self):
         self.start_time = timezone.now()

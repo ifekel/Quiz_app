@@ -25,6 +25,7 @@ from .views import (
     quiz_taken,
     quiz_created
 )
+app_name = "quiz"
 
 
 urlpatterns = [

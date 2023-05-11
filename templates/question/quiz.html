@@ -1,32 +1,164 @@
+<!-- quiz.html -->
 {% extends '_base.html' %}
 
+
+{% block style %}
+<style>
+  :root {
+    --color-primary: #3B0A6B;
+    --color-secondary: lightblue;
+  }
+
+
+  /* quiz.css */
+
+  .quiz-container {
+    max-width: 600px;
+    margin: 10% auto;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    padding: 2rem;
+    border-radius: 10px;
+  }
+
+  #quiz-form {
+    margin-top: 3rem;
+  }
+
+  .question {
+    display: none;
+  }
+
+  .question h3 {
+    position: relative;
+    background-color: #f443366a;
+    display: inline-block;
+    margin-left: auto;
+    padding: 10px 2rem;
+    border-radius: 5px;
+    text-align: left;
+    margin: 0;
+    text-align: right;
+  }
+
+  .question p {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
+
+  .question.active {
+    display: block;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 100%;
+    grid-gap: 10px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--color-secondary);
+    font-size: 17px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .navigation-buttons {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .navigation-buttons button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .navigation-buttons button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+
+  .navigation-buttons #submit-btn {
+    background-color: #f44336;
+    margin: 3rem auto;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: georgia pro;
+  }
+</style>
+
+{% endblock style %}
+
+
+
 {% block content %}
-<h1>{{ category.category }} Quiz</h1>
-<form method="post">
-  {% csrf_token %}
-  {% for question in questions %}
-  <div class="question">
-    <h3>{{ question.question }}</h3>
-    {% if question.image %}
-    <img src="{{ question.image.url }}" alt="{{ question.question }}">
-    {% endif %}
-    {% for choice in question.choices.all %}
-    <input type="radio" id="choice_{{ choice.id }}" name="answer_{{ question.id }}" value="{{ choice.id }}">
-    <label for="choice_{{ choice.id }}">{{ choice.choice_text }}</label><br>
+
+<div class="quiz-container">
+  <h1>{{ category.category }} Quiz</h1>
+  <form id="quiz-form" method="post" action="{% url 'quiz:play' category.id %}">
+    {% csrf_token %}
+    {% for question in questions %}
+    <div class="question {% if forloop.first %}active{% endif %}" id="question_{{ question.id }}">
+      <h3>Q: {{ forloop.counter }}</h3>
+      <p>{{ question.question }}</p>
+      <ul>
+        {% for choice in question.choices.all %}
+        <li>
+          <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}">
+          <label for="choice_{{ question.id }}_{{ choice.id }}">{{ choice.choice_text }}</label>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endfor %}
-    {% if not question.user_answered %}
-    <span class="error">Please select an answer.</span>
-    {% endif %}
-  </div>
-  {% endfor %}
-  {% if has_previous %}
-  <button type="submit" name="action" value="previous">Previous</button>
-  {% endif %}
-  {% if has_next %}
-  <button type="submit" name="action" value="next">Next</button>
-  {% endif %}
-  {% if not has_next %}
-  <button type="submit" name="action" value="end">End Quiz</button>
-  {% endif %}
-</form>
+
+    <div class="navigation-buttons">
+      <button type="button" id="prev-btn" onclick="navigateQuestion(-1)" disabled>Previous</button>
+      <button type="button" id="next-btn" onclick="navigateQuestion(1)">Next</button>
+      <button type="submit" id="submit-btn" style="display: none;">Submit</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  var currentQuestion = 0;
+  var questions = document.querySelectorAll('.question');
+  var prevButton = document.getElementById('prev-btn');
+  var nextButton = document.getElementById('next-btn');
+  var submitButton = document.getElementById('submit-btn');
+
+  showQuestion(currentQuestion);
+
+  function showQuestion(index) {
+    questions.forEach(function (question, idx) {
+      if (idx === index) {
+        question.classList.add('active');
+      } else {
+        question.classList.remove('active');
+      }
+    });
+
+    prevButton.disabled = index === 0;
+    nextButton.disabled = index === questions.length - 1;
+    submitButton.style.display = index === questions.length - 1 ? 'block' : 'none';
+  }
+
+  function navigateQuestion(direction) {
+    currentQuestion += direction;
+    showQuestion(currentQuestion);
+  }
+</script>
 {% endblock %}

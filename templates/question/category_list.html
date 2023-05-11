@@ -122,6 +122,42 @@
     .all-categories {
         min-width: 100%;
     }
+
+    .categories {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-column-gap: 20px;
+        padding: 20px;
+    }
+
+    .category-item {
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #3B0A6B;
+        border-bottom: 5px solid #3B0A6B;
+        text-align: left;
+        height: 150px;
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    h2 {
+        color: #3B0A6B;
+        font-size: 30px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    span a {
+        padding: 10px 30px;
+        border-radius: 4px;
+        border: 2px solid #3B0A6B;
+        color: black;
+        font-family: sans-serif;
+        text-decoration: none;
+        font-weight: 800;
+    }
 </style>
 {% endblock style %}
 
@@ -134,23 +170,29 @@
         <div class="nav-menu-actions">
             <li><a href="#"><i class="fa fa-search"></i></a></li>
             <li><i class="fa fa-copyright"></i>0.00</li>
-            <li><a href="{% url 'profile' %}" class="profile_name">{{ request.user.first_name|slice:":1" }}</a></li>
+            <li><a href="{% url 'quiz:profile' %}" class="profile_name">{{ request.user.first_name|slice:":1" }}</a></li>
         </div>
     </ul>
 </nav>
 
 <section class="all-categories">
-    <h1>Quiz Categories</h1>
-    {% for category_data in categories %}
-    <h2>{{ category_data.category }}</h2>
-    <span><a href="{% url 'play' category_data.id %}?question_index=0">Play</a></span>
-    {% endfor %}
+    <div class="categories">
+        {% for category_data in categories %}
+        <div class="category-item">
+            <h1>{{ category_data.category }}</h1>
+            <div class="actions">
+                <span><a href="{% url 'quiz:play' category_data.id %}?question_index=0">Play</a></span>
+                <span><a href="{% url 'quiz:play' category_data.id %}?question_index=0">Leaderboard</a></span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </section>
 
 <section class="backdrop not-showing">
     <h5 class="modal-search-box-btn">X</h5>
     <div class="search-backdrop">
-        <form action="{% url 'search_result' %}" method="get">
+        <form action="{% url 'quiz:search_result' %}" method="get">
             <div class="form-group">
                 <input type="text" placeholder="Search" name="q" aria-label="Search">
             </div>

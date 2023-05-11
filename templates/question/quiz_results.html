@@ -39,11 +39,11 @@
 
 <br>
 
-<a href="{% url 'category' %}" class="btn btn-primary">Back to Categories</a>
+<a href="{% url 'quiz:category' %}" class="btn btn-primary">Back to Categories</a>
 
 <br><br>
 
-<form action="{% url 'quiz_results' %}" method="get">
+<form action="{% url 'quiz:quiz_results' %}" method="get">
     <button type="submit" name="pdf" value="1" class="btn btn-primary">Download PDF</button>
 </form>
 {% endblock %}

@@ -20,6 +20,7 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 import time
+from urllib.parse import urlencode
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
 import random
@@ -140,6 +141,15 @@ class AnnouncementList(LoginRequiredMixin, ListView):
     context_object_name = "announcements"
     template_name = "announcement/announcement.html"
 
+    def get_queryset(self):
+        # Get the user's signup date
+        signup_date = self.request.user.date_joined
+
+        # Filter announcements created after the user's signup date
+        queryset = super().get_queryset().filter(created_at__gte=signup_date)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['announcement_list'] = context['announcements']
@@ -215,30 +225,39 @@ def submission_Result(request, attempted_question_pk):
 
 class PlayQuizView(View):
     template_name = 'question/quiz.html'
+    questions_limit = 15  # Number of questions to show
 
     def get(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)
         questions = list(Question.objects.filter(category=category))
         shuffle(questions)
-        questions = questions[:15]
-        request.session['answers'] = {}
+        questions = questions[:self.questions_limit]
+
+        # Retrieve previously selected answers from session
+        answers = request.session.get('answers', {})
+
         return render(request, self.template_name, {
             'category': category,
             'questions': questions,
-            'total_points': 150
+            'total_points': 150,
+            'answers': answers,
         })
 
     def post(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)
         questions = list(Question.objects.filter(category=category))
         shuffle(questions)
-        questions = questions[:15]
+        questions = questions[:self.questions_limit]
         total_points = 150
+
         user_profile = QuizProfile.objects.get(user=request.user)
-        answers = {}
+
+        # Retrieve previously selected answers from session
+        answers = request.session.get('answers', {})
 
         for question in questions:
             answer = request.POST.get(f"question_{question.id}")
+
             if answer:
                 choices = list(question.choices.all())
                 correct_choices = list(filter(lambda c: c.is_correct, choices))
@@ -263,6 +282,7 @@ class PlayQuizView(View):
         user_profile.total_score += total_points
         user_profile.save()
 
+        # Store updated answers in the session
         request.session['answers'] = answers
 
         results_url = reverse('quiz:results', args=[category_id])
@@ -324,20 +344,6 @@ def quiz_results(request):
     return render(request, 'question/quiz_results.html', context)
 
 
-# @login_required
-# def results(request, category_id):
-#     category = Category.objects.get(pk=category_id)
-#     questions = list(category.question_set.all())
-#     num_questions = len(questions)
-#     answers = request.session.get('answers', {})
-#     score = sum(answers.values())
-#     context = {
-#         'category': category,
-#         'num_questions': num_questions,
-#         'score': score
-#     }
-#     return render(request, 'question/results.html', context)
-
 def results(request, category_id):
     category = Category.objects.get(pk=category_id)
     questions = list(category.question_set.all())
@@ -345,11 +351,25 @@ def results(request, category_id):
     answers = request.session.get('answers', {})
     score = sum(answers.values())
     percentage_score = (score / num_questions) * 100
+
+    # Create the share link with registration URL
+    # Replace with your registration URL
+    base_url = 'http://127.0.0.1:8000/signup'
+
+    share_data = {
+        'category_id': category_id,
+        'score': score,
+        'percentage_score': percentage_score,
+    }
+    share_link = f'{base_url}?{urlencode(share_data)}'
+
     context = {
         'category': category,
         'num_questions': num_questions,
         'score': score,
         'percentage_score': percentage_score,
+        'share_link': share_link,
+        'base_url': base_url
     }
     return render(request, 'question/results.html', context)
 
@@ -398,13 +418,13 @@ def signupView(request):
             if CustomUser.objects.filter(email=email).exists():
                 messages.error(
                     request, "An account with that email already exist!")
-                return redirect(reverse('signup'))
+                return redirect(reverse('quiz:signup'))
             elif len(firstname) <= 0:
                 messages.error(request, "Fill in the required fields")
                 return redirect(reverse('signup'))
             elif len(lastname) <= 0:
                 messages.error(request, "Fill in the required fields")
-                return redirect(reverse('signup'))
+                return redirect(reverse('quiz:signup'))
             else:
                 try:
                     hashed_password = make_password(password)
@@ -425,7 +445,7 @@ def signupView(request):
                     send_mail("Verification Code", send_message,
                               "quizzer.sup@gmail.com", (email,))
 
-                    return redirect(reverse('verify_email'))
+                    return redirect('quiz:verify_email')
                 except Exception as e:
                     messages.error(request, str(e))
                 else:
@@ -447,7 +467,7 @@ def verify_email(request):
                     user.save()
                     messages.success(
                         request, "Email Address Verified Successfully!")
-                    return redirect(reverse('login'))
+                    return redirect(reverse('quiz:login'))
                 except CustomUser.DoesNotExist:
                     messages.error(request, "User does not exist!")
             else:
@@ -564,15 +584,21 @@ def quiz_taken(request):
     return render(request, 'question/quiz_taken.html', context)
 
 
+@login_required
 def quiz_created(request):
-    categories = Category.objects.all()
+    user = request.user
+    categories = Category.objects.filter(author=user)
     quiz_data = []
+
     for category in categories:
-        quiz_profiles = QuizProfile.objects.filter(category=category)
+        quizzes = Quiz.objects.filter(category=category)
+        quiz_profiles = QuizProfile.objects.filter(quiz__in=quizzes)
         quiz_data.append({
             'category': category,
-            'num_quizzes': len(quiz_profiles)
+            'num_quizzes': len(quizzes),
+            'quiz_profiles': quiz_profiles
         })
+
     context = {
         'quiz_data': quiz_data
     }

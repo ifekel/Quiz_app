@@ -24,6 +24,7 @@
         color: white;
         text-decoration: none;
     }
+
     .announcements {
         width: 99%;
         height: 93%;
@@ -62,7 +63,7 @@
         <div class="announcements">
             {% for announcement in announcement_list reversed %}
             <div class="announcement-item">
-                <h3><a href="{% url 'announcement_detail' announcement.id  %}">{{ announcement.title }}</a></h3>
+                <h3><a href="{% url 'quiz:announcement_detail' announcement.id  %}">{{ announcement.title }}</a></h3>
             </div>
             {% empty %}
             <h3>No announcement</h3>

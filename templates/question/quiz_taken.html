@@ -7,17 +7,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Category</th>
-                <th>Total Score</th>
-                <th>Time Taken</th>
+                <th>Quiz</th>
+                <th>Recent Score</th>
             </tr>
         </thead>
         <tbody>
             {% for quiz_profile in quiz_history %}
             <tr>
-                <td>{{ quiz_profile.category.category }}</td>
-                <td>{{ quiz_profile.total_score }}%</td>
-                <td>{{ quiz_profile.get_duration }}</td>
+                <td>{{ quiz_profile.category }}</td>
+                <td>{{ quiz_profile.recent_score }}%</td>
             </tr>
             {% endfor %}
         </tbody>

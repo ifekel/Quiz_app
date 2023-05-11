@@ -9,6 +9,7 @@
     section {
         width: 100%;
         height: 100vh;
+        overflow: hidden;
     }
 
     main {
@@ -67,20 +68,21 @@
     .backdrop h5 {
         color: white;
         font-size: 4rem;
+        font-family: Arial rounded mt;
         top: 0;
         right: 20rem;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         position: fixed;
         cursor: pointer;
     }
 
     .search-backdrop {
-        width: 40%;
+        width: 60%;
         backdrop-filter: blur(4px);
     }
 
     .form-group {
         z-index: 4;
+        width: 100%;
         background: rgba(0, 0, 0, 0.1);
         display: flex;
         align-items: center;
@@ -94,9 +96,8 @@
         height: 50px;
         background: none;
         border: none;
-        outline:none;
-        border-bottom: 3px solid #fff;
-        border-left: 3px solid #fff;
+        outline: none;
+        border-left: 1px solid #fff;
         font-size: 20px;
         color: white;
         font-family: sans-serif;
@@ -107,93 +108,98 @@
         color: white;
     }
 
-    .all-categories {
-        background: linear-gradient(to left, #10031d, #1f0638);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .catgeries-list {
-        width: 30%;
-        background: rgba(0, 0, 0, 0.1);
-        height: 60%;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
-    }
-    .catgeries-list h1 {
-        height: 70px;
-        margin: 0;
-        display: flex;
-        align-items: center;
-        background-color: #3B0A6B;
-        justify-content: center;
-        font-family: bree serif;
-        font-size: 32px;
-        color: white;
-    }
-    .catgeries-list ul {
-        list-style-type: none;
-    }
-    .catgeries-list li {
-        margin: 1px;
-        height: 50px;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .all-categories li a {
-        text-decoration: none;
-        font-family: sans-serif;
-        font-weight: 800;
-        color: white;
-        font-family: calibri;
-        font-size: 20px;
-    }
     .not-showing {
         display: none;
+    }
+
+    @media (max-width: 1024px) {
+        nav {
+            width: 100%;
+        }
+
+    }
+
+    .all-categories {
+        min-width: 100%;
+    }
+
+    .categories {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-column-gap: 20px;
+        padding: 20px;
+    }
+
+    .category-item {
+        border-radius: 5px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        border-top: 5px solid #3B0A6B;
+        border-bottom: 5px solid #3B0A6B;
+        text-align: left;
+        height: 150px;
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    h2 {
+        color: #3B0A6B;
+        font-size: 30px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    span a {
+        padding: 10px 30px;
+        border-radius: 4px;
+        border: 2px solid #3B0A6B;
+        color: black;
+        font-family: sans-serif;
+        text-decoration: none;
+        font-weight: 800;
     }
 </style>
 {% endblock style %}
 
 {% block content %}
-<section>
-    <nav>
-        <ul>
-            <div class="banner">
-                <li><a href="{% url 'home_page' %}" style="font-family: cooper black; font-size: 40px;">Quizzer</a></li>
-            </div>
-            <div class="nav-menu-actions">
-                <li><a href="#"><i class="fa fa-search"></i></a></li>
-                <li><i class="fa fa-copyright"></i>0.00</li>
-                <li><a href="{% url 'profile' %}">{{ request.user.first_name }}</a></li>
-            </div>
-        </ul>
-    </nav>
-
-    <section class="all-categories">
-        <div class="catgeries-list">
-            <h1>Quiz Categories</h1>
-            <ul>
-                {% for category in categories %}
-                <li><a href="{% url 'play' category.id %}">{{ category.category }}</a></li>
-                {% empty %}
-                <li>No categories found.</li>
-                {% endfor %}
-            </ul>
+<nav>
+    <ul>
+        <div class="banner">
+            <li><a href="{% url 'home_page' %}" style="font-family: cooper black; font-size: 40px;">Quizzer</a></li>
         </div>
-    </section>
+        <div class="nav-menu-actions">
+            <li><a href="#"><i class="fa fa-search"></i></a></li>
+            <li><i class="fa fa-copyright"></i>0.00</li>
+            <li><a href="{% url 'quiz:profile' %}" class="profile_name">{{ request.user.first_name|slice:":1" }}</a></li>
+        </div>
+    </ul>
+</nav>
 
-    <section class="backdrop not-showing">
-        <h5 class="modal-search-box-btn">X</h5>
-        <div class="search-backdrop">
+<section class="all-categories">
+    <div class="categories">
+        {% for category_data in categories %}
+        <div class="category-item">
+            <h1>{{ category_data.category }}</h1>
+            <div class="actions">
+                <span><a href="{% url 'quiz:play' category_data.id %}?question_index=0">Play</a></span>
+                <span><a href="{% url 'quiz:play' category_data.id %}?question_index=0">Leaderboard</a></span>
+            </div>
+        </div>
+        {% empty %}
+        <h3>No categories matches your search</h3>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="backdrop not-showing">
+    <h5 class="modal-search-box-btn">X</h5>
+    <div class="search-backdrop">
+        <form action="{% url 'quiz:search_result' %}" method="get">
             <div class="form-group">
-                <form action="{% url 'search_result' %}" method="get">
-                    <input type="text" placeholder="Search" name="q" aria-label="Search">
-                </form>
+                <input type="text" placeholder="Search" name="q" aria-label="Search">
             </div>
-        </div>
-    </section>
+        </form>
+    </div>
 </section>
 {% endblock content %}
 

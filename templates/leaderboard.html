@@ -2,6 +2,40 @@
 {% load static %}
 {% block title %}Leaderboard{% endblock title %}
 
+{% block style %}
+<style>
+    .container {
+        width: 30%;
+        margin: 5rem auto;
+    }
+
+    h1 {
+        text-align: center;
+        border-bottom: 3px solid #3B0A6B;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #3B0A6B;
+    }
+
+    th {
+        font-size: 20px;
+        font-weight: 800;
+        background-color: #3B0A6B;
+        color: white;
+        padding: 20px;
+        font-family: fira sans;
+    }
+</style>
+{% endblock style %}
+
 
 {% block content %}
 <div class="container">

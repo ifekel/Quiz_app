@@ -1,22 +1,93 @@
 {% extends '_base.html' %}
 
+{% block style %}
+<style>
+    .container {
+        border: 2px solid #3B0A6B;
+        padding: 20px;
+        text-align: center;
+        width: 35%;
+        margin: 0 auto;
+        margin-top: 14%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+    }
+
+    h1 {
+        font-size: 50px;
+        font-family: 'Poppins', sans-serif;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 30px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    th {
+        background-color: #3B0A6B;
+        color: #FFFFFF;
+    }
+
+    tr:nth-child(even) {
+        background-color: #F4F4F4;
+    }
+
+    tr:hover {
+        background-color: #E6E6E6;
+    }
+
+    .details-link {
+        color: #3B0A6B;
+        font-weight: bold;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+{% endblock style %}
 
 {% block content %}
-<h1>Quiz Created</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Category</th>
-            <th>Number of Quizzes</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for data in quiz_data %}
-        <tr>
-            <td>{{ data.category }}</td>
-            <td>{{ data.num_quizzes }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container">
+    <h1>Quiz Created</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Number of Quizzes</th>
+                <th>Users</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in quiz_data %}
+            <tr>
+                <td>{{ data.category }}</td>
+                <td>{{ data.num_quizzes }}</td>
+                <td>
+                    <ul>
+                        {% for profile in data.quiz_profiles %}
+                        <li>{{ profile.user.username }} - Score: {{ profile.score }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p class="details-link" onclick="showQuizDetails({{ data.category.id }})">Click to see more details</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function showQuizDetails(categoryId) {
+        // Redirect to the quiz details page for the selected category
+        window.location.href = "/quiz-details/" + categoryId;
+    }
+</script>
 {% endblock content %}
